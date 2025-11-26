@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.jsx';
+
+@theme {
+    --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-display: 'Cal Sans', 'Inter', sans-serif;
+
+    --color-background-primary: var(--background-primary);
+    --color-background-secondary: var(--background-secondary);
+    --color-background-tertiary: var(--background-tertiary);
+    --color-background-elevated: var(--background-elevated);
+
+    --color-surface-base: var(--surface-base);
+    --color-surface-elevated: var(--surface-elevated);
+    --color-surface-overlay: var(--surface-overlay);
+
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-tertiary: var(--text-tertiary);
+    --color-text-disabled: var(--text-disabled);
+
+    --color-accent-primary: var(--accent-primary);
+    --color-accent-secondary: var(--accent-secondary);
+    --color-accent-tertiary: var(--accent-tertiary);
+
+    --color-semantic-success: var(--semantic-success);
+    --color-semantic-warning: var(--semantic-warning);
+    --color-semantic-error: var(--semantic-error);
+    --color-semantic-info: var(--semantic-info);
+
+    --color-border-subtle: var(--border-subtle);
+    --color-border-default: var(--border-default);
+    --color-border-strong: var(--border-strong);
+
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 40px rgba(139, 92, 246, 0.2);
+    --shadow-glow-large: 0 0 30px rgba(99, 102, 241, 0.4), 0 0 60px rgba(139, 92, 246, 0.3);
+
+    --animate-fade-in: fadeIn 300ms ease-in-out;
+    --animate-slide-up: slideUp 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --animate-slide-down: slideDown 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --animate-scale-in: scaleIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --animate-float: float 3s ease-in-out infinite;
+    --animate-pulse-slow: pulse 3s ease-in-out infinite;
+    --animate-shimmer: shimmer 2s linear infinite;
+    --animate-rotate: rotate 1s linear infinite;
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes scaleIn {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+}
+
+:root {
+    /* Light Mode (Crystal Day) */
+    --background-primary: #ffffff;
+    --background-secondary: #f8f9fa;
+    --background-tertiary: #f1f3f5;
+    --background-elevated: #e9ecef;
+
+    --surface-base: #ffffff;
+    --surface-elevated: #f8f9fa;
+    --surface-overlay: #e9ecef;
+
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a68;
+    --text-tertiary: #6a6a8a;
+    --text-disabled: #9a9ab0;
+
+    --accent-primary: #5558e3;
+    --accent-secondary: #7c3aed;
+    --accent-tertiary: #db2777;
+
+    --semantic-success: #059669;
+    --semantic-warning: #d97706;
+    --semantic-error: #dc2626;
+    --semantic-info: #2563eb;
+
+    --border-subtle: #e9ecef;
+    --border-default: #dee2e6;
+    --border-strong: #adb5bd;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Mode (Midnight Eclipse) */
+        --background-primary: #0a0a0f;
+        --background-secondary: #13131a;
+        --background-tertiary: #1a1a24;
+        --background-elevated: #20202e;
+
+        --surface-base: #1e1e2e;
+        --surface-elevated: #2a2a3e;
+        --surface-overlay: #33334a;
+
+        --text-primary: #f8f9fa;
+        --text-secondary: #b4b4c8;
+        --text-tertiary: #8b8ba0;
+        --text-disabled: #5a5a6e;
+
+        --accent-primary: #6366f1;
+        --accent-secondary: #8b5cf6;
+        --accent-tertiary: #ec4899;
+
+        --semantic-success: #10b981;
+        --semantic-warning: #f59e0b;
+        --semantic-error: #ef4444;
+        --semantic-info: #3b82f6;
+
+        --border-subtle: #2a2a3e;
+        --border-default: #3a3a52;
+        --border-strong: #4a4a66;
+    }
+}
+
+/* Manual Dark Mode Override */
+.dark {
+    --background-primary: #0a0a0f;
+    --background-secondary: #13131a;
+    --background-tertiary: #1a1a24;
+    --background-elevated: #20202e;
+
+    --surface-base: #1e1e2e;
+    --surface-elevated: #2a2a3e;
+    --surface-overlay: #33334a;
+
+    --text-primary: #f8f9fa;
+    --text-secondary: #b4b4c8;
+    --text-tertiary: #8b8ba0;
+    --text-disabled: #5a5a6e;
+
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    --accent-tertiary: #ec4899;
+
+    --semantic-success: #10b981;
+    --semantic-warning: #f59e0b;
+    --semantic-error: #ef4444;
+    --semantic-info: #3b82f6;
+
+    --border-subtle: #2a2a3e;
+    --border-default: #3a3a52;
+    --border-strong: #4a4a66;
+}
