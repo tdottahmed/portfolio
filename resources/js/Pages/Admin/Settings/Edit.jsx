@@ -1,10 +1,11 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm } from '@inertiajs/react';
 import Button from '@/Components/Button';
+import ImageUploader from '@/Components/ImageUploader';
 import { useState } from 'react';
 
 export default function Edit({ settings }) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         hero: settings.hero || {
             title: '',
             subtitle: '',
@@ -41,7 +42,10 @@ export default function Edit({ settings }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('admin.settings.update'));
+        post(route('admin.settings.update'), {
+            _method: 'put',
+            forceFormData: true,
+        });
     };
 
     const tabs = [
@@ -136,12 +140,10 @@ export default function Edit({ settings }) {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-text-secondary mb-1">Hero Image URL</label>
-                                    <input
-                                        type="text"
-                                        value={data.hero.image}
-                                        onChange={e => setData('hero', { ...data.hero, image: e.target.value })}
-                                        className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
+                                    <ImageUploader
+                                        label="Hero Image"
+                                        image={data.hero.image}
+                                        onChange={(file) => setData('hero', { ...data.hero, image: file })}
                                     />
                                 </div>
                             </div>
@@ -170,12 +172,10 @@ export default function Edit({ settings }) {
                                     ></textarea>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-text-secondary mb-1">Profile Image URL</label>
-                                    <input
-                                        type="text"
-                                        value={data.about.image}
-                                        onChange={e => setData('about', { ...data.about, image: e.target.value })}
-                                        className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
+                                    <ImageUploader
+                                        label="Profile Image"
+                                        image={data.about.image}
+                                        onChange={(file) => setData('about', { ...data.about, image: file })}
                                     />
                                 </div>
                                 <div>

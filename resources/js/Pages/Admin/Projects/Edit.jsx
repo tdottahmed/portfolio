@@ -1,6 +1,7 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm, Link } from '@inertiajs/react';
 import Button from '@/Components/Button';
+import ImageUploader from '@/Components/ImageUploader';
 import { ArrowLeft, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -153,19 +154,12 @@ export default function Edit({ project }) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-secondary mb-1">Thumbnail</label>
-                        {project.thumbnail && (
-                            <div className="mb-2">
-                                <img src={project.thumbnail} alt="Current Thumbnail" className="w-32 h-32 object-cover rounded-lg border border-border-subtle" />
-                            </div>
-                        )}
-                        <input
-                            type="file"
-                            onChange={e => setData('thumbnail', e.target.files[0])}
-                            className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
-                            accept="image/*"
+                        <ImageUploader
+                            label="Thumbnail"
+                            image={data.thumbnail || project.thumbnail}
+                            onChange={(file) => setData('thumbnail', file)}
+                            error={errors.thumbnail}
                         />
-                        {errors.thumbnail && <div className="text-semantic-error text-sm mt-1">{errors.thumbnail}</div>}
                     </div>
 
                     <div className="flex items-center">

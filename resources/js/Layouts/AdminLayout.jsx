@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import ThemeToggle from '@/Components/ThemeToggle';
 import { useTheme } from '@/Hooks/useTheme';
+import Toast from '@/Components/Toast';
 
 export default function AdminLayout({ children }) {
     useTheme();
@@ -105,6 +106,7 @@ export default function AdminLayout({ children }) {
                     {children}
                 </main>
             </div>
+            <Toast />
         </div>
     );
 }
