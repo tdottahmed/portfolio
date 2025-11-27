@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Plus, Pencil, Trash2, Eye } from 'lucide-react';
 import Button from '@/Components/Button';
+import { formatDate } from '@/Utils/date';
 
 export default function Index({ posts }) {
     const { delete: destroy } = useForm();
@@ -55,7 +56,7 @@ export default function Index({ posts }) {
                                     {post.author}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                                    {post.published_at ? new Date(post.published_at).toLocaleDateString() : 'Draft'}
+                                    {post.published_at ? formatDate(post.published_at) : 'Draft'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div className="flex items-center justify-end space-x-2">

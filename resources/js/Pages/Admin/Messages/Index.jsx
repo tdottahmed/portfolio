@@ -2,6 +2,7 @@ import React from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Mail, Eye, Trash2, Calendar, CheckCircle, XCircle } from 'lucide-react';
+import { formatDate } from '@/Utils/date';
 
 export default function Index({ messages }) {
     const { delete: destroy } = useForm();
@@ -45,7 +46,7 @@ export default function Index({ messages }) {
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <div className="flex items-center">
                                             <Calendar className="w-4 h-4 mr-1" />
-                                            {new Date(message.created_at).toLocaleDateString()}
+                                            {formatDate(message.created_at)}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">

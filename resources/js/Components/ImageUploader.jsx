@@ -19,10 +19,19 @@ export default function ImageUploader({ label, image, onChange, error, className
         }
     }, [image]);
 
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         if (acceptedFiles?.length > 0) {
             const file = acceptedFiles[0];
             onChange(file);
+        }
+        
+        if (rejectedFiles?.length > 0) {
+            const rejection = rejectedFiles[0];
+            if (rejection.errors[0]?.code === 'file-too-large') {
+                alert('File is too large. Max size is 2MB.');
+            } else {
+                alert(rejection.errors[0]?.message);
+            }
         }
     }, [onChange]);
 
@@ -37,7 +46,8 @@ export default function ImageUploader({ label, image, onChange, error, className
             'image/*': ['.jpeg', '.jpg', '.png', '.webp']
         },
         maxFiles: 1,
-        multiple: false
+        multiple: false,
+        maxSize: 2 * 1024 * 1024 // 2MB
     });
 
     return (

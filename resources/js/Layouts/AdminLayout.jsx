@@ -25,16 +25,16 @@ export default function AdminLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navigation = [
-        { name: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard },
-        { name: 'Projects', href: route('admin.projects.index'), icon: Briefcase },
-        { name: 'Skills', href: route('admin.skills.index'), icon: Code2 },
-        { name: 'Experience', href: route('admin.experiences.index'), icon: User },
-        { name: 'Education', href: route('admin.education.index'), icon: GraduationCap },
-        { name: 'Services', href: route('admin.services.index'), icon: Layers },
-        { name: 'Testimonials', href: route('admin.testimonials.index'), icon: MessageSquare },
-        { name: 'Blog Posts', href: route('admin.posts.index'), icon: FileText },
-        { name: 'Messages', href: route('admin.messages.index'), icon: MessageSquare },
-        { name: 'Settings', href: route('admin.settings.edit'), icon: Settings },
+        { name: 'Dashboard', href: route('dashboard'), active: 'dashboard', icon: LayoutDashboard },
+        { name: 'Projects', href: route('admin.projects.index'), active: 'admin.projects.*', icon: Briefcase },
+        { name: 'Skills', href: route('admin.skills.index'), active: 'admin.skills.*', icon: Code2 },
+        { name: 'Experience', href: route('admin.experiences.index'), active: 'admin.experiences.*', icon: User },
+        { name: 'Education', href: route('admin.education.index'), active: 'admin.education.*', icon: GraduationCap },
+        { name: 'Services', href: route('admin.services.index'), active: 'admin.services.*', icon: Layers },
+        { name: 'Testimonials', href: route('admin.testimonials.index'), active: 'admin.testimonials.*', icon: MessageSquare },
+        { name: 'Blog Posts', href: route('admin.posts.index'), active: 'admin.posts.*', icon: FileText },
+        { name: 'Messages', href: route('admin.messages.index'), active: 'admin.messages.*', icon: MessageSquare },
+        { name: 'Settings', href: route('admin.settings.edit'), active: 'admin.settings.*', icon: Settings },
     ];
 
     return (
@@ -58,7 +58,7 @@ export default function AdminLayout({ children }) {
                             key={item.name}
                             href={item.href}
                             className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                                route().current(item.href) // You might need to adjust this check
+                                route().current(item.active)
                                     ? 'bg-accent-primary/10 text-accent-primary'
                                     : 'text-text-secondary hover:bg-surface-elevated hover:text-text-primary'
                             }`}

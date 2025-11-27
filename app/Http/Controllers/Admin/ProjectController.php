@@ -44,9 +44,9 @@ class ProjectController extends Controller
             'category' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'long_description' => 'nullable|string',
-            'thumbnail' => 'nullable|image|max:2048', // Validate as image
+            'thumbnail' => 'nullable|image|max:2048',
             'images' => 'nullable|array',
-            'images.*' => 'image|max:2048', // Validate each image in array
+            'images.*' => 'image|max:2048',
             'technologies' => 'nullable|array',
             'features' => 'nullable|array',
             'achievements' => 'nullable|array',
@@ -58,17 +58,12 @@ class ProjectController extends Controller
             'featured' => 'boolean'
         ]);
 
+
         $validated['slug'] = Str::slug($validated['title']);
 
-        // Handle Thumbnail Upload
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $this->uploadFile($request->file('thumbnail'), 'projects/thumbnails');
         }
-
-        // Handle Multiple Images Upload (if applicable - currently schema stores JSON)
-        // For simplicity in this iteration, we'll just handle the thumbnail correctly.
-        // If 'images' is an array of files, we'd loop and upload.
-        // Assuming 'images' might be mixed or handled differently, but let's support basic file array if sent.
         if ($request->hasFile('images')) {
             $uploadedImages = [];
             foreach ($request->file('images') as $image) {
@@ -138,12 +133,14 @@ class ProjectController extends Controller
         // Handle Thumbnail Upload
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $this->uploadFile($request->file('thumbnail'), 'projects/thumbnails', $project->thumbnail);
+        } elseif ($request->input('thumbnail') === null || $request->input('thumbnail') === 'null') {
+            // Explicitly removed
+            if ($project->thumbnail) {
+                $this->deleteFile($project->thumbnail);
+            }
+            $validated['thumbnail'] = null;
         } else {
-            // Keep old thumbnail if not uploaded (and not explicitly removed, logic depends on frontend)
-            // If frontend sends null/empty for thumbnail, it might mean delete?
-            // Usually, if no file is sent, we just don't update the field unless we want to clear it.
-            // But validation 'nullable' allows null.
-            // If it's a string (old URL), we keep it.
+            // It's a string (old URL) or missing.
             unset($validated['thumbnail']);
         }
 
@@ -161,7 +158,7 @@ class ProjectController extends Controller
             $this->deleteFile($project->thumbnail);
         }
         // Also delete gallery images if needed
-        
+
         $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }

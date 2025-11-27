@@ -2,6 +2,7 @@ import React from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Trash2, Calendar, Mail, User, Clock } from 'lucide-react';
+import { formatDate } from '@/Utils/date';
 
 export default function Show({ message }) {
     const { delete: destroy } = useForm();
@@ -69,7 +70,7 @@ export default function Show({ message }) {
                             <div>
                                 <p className="text-sm font-medium text-gray-500">Received On</p>
                                 <p className="text-lg text-gray-900">
-                                    {new Date(message.created_at).toLocaleString()}
+                                    {formatDate(message.created_at, { hour: 'numeric', minute: 'numeric' })}
                                 </p>
                             </div>
                         </div>
@@ -83,7 +84,7 @@ export default function Show({ message }) {
                                 <p className="text-lg text-gray-900">
                                     {message.read_at ? (
                                         <span className="text-green-600 flex items-center">
-                                            Read on {new Date(message.read_at).toLocaleString()}
+                                            Read on {formatDate(message.read_at, { hour: 'numeric', minute: 'numeric' })}
                                         </span>
                                     ) : (
                                         <span className="text-blue-600">Unread</span>

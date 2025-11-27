@@ -18,11 +18,9 @@ trait FileUploadTrait
      */
     public function uploadFile(UploadedFile $file, string $directory = 'uploads', ?string $oldFile = null): string
     {
-        // Delete old file if it exists
         if ($oldFile) {
             $this->deleteFile($oldFile);
         }
-
         $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs($directory, $filename, 'public');
 
