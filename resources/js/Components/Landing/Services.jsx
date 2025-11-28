@@ -10,7 +10,7 @@ export default function Services({ services }) {
     };
 
     return (
-        <section id="services" className="py-20 bg-background-primary">
+        <section id="services" className="py-20">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">My Services</h2>
@@ -28,7 +28,7 @@ export default function Services({ services }) {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-surface-base p-8 rounded-xl shadow-lg border border-border-subtle hover:border-accent-primary/30 transition-colors group"
+                            className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle hover:border-accent-primary/30 transition-colors group"
                         >
                             <div className="w-14 h-14 bg-accent-primary/10 rounded-lg flex items-center justify-center text-accent-primary mb-6 group-hover:bg-accent-primary group-hover:text-white transition-colors">
                                 <IconComponent name={service.icon} />
@@ -36,16 +36,25 @@ export default function Services({ services }) {
                             <h3 className="text-xl font-bold text-text-primary mb-4">{service.title}</h3>
                             <p className="text-text-secondary mb-6">{service.description}</p>
                             
-                            {service.features && (
-                                <ul className="space-y-2">
-                                    {JSON.parse(service.features).map((feature, idx) => (
-                                        <li key={idx} className="flex items-center text-sm text-text-secondary">
-                                            <div className="w-1.5 h-1.5 bg-accent-secondary rounded-full mr-2" />
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            {(() => {
+                                let features = [];
+                                try {
+                                    features = typeof service.features === 'string' ? JSON.parse(service.features) : (service.features || []);
+                                } catch (e) {
+                                    features = [];
+                                }
+
+                                return features.length > 0 && (
+                                    <ul className="space-y-2">
+                                        {features.map((feature, idx) => (
+                                            <li key={idx} className="flex items-center text-sm text-text-secondary">
+                                                <div className="w-1.5 h-1.5 bg-accent-secondary rounded-full mr-2" />
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                );
+                            })()}
                         </motion.div>
                     ))}
                 </div>

@@ -13,7 +13,7 @@ export default function MobileMenu({ isOpen, onClose, links }) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] md:hidden"
                     />
 
                     {/* Menu Panel */}
@@ -22,7 +22,7 @@ export default function MobileMenu({ isOpen, onClose, links }) {
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed right-0 top-0 bottom-0 w-[280px] bg-surface-base border-l border-border-subtle z-50 md:hidden shadow-2xl"
+                        className="fixed right-0 top-0 bottom-0 w-[280px] bg-surface-base border-l border-border-subtle z-[70] md:hidden shadow-2xl"
                     >
                         <div className="flex flex-col h-full">
                             <div className="flex items-center justify-between p-6 border-b border-border-subtle">

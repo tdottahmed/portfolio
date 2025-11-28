@@ -1,7 +1,6 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import {
-    Menu,
     Home,
     User,
     Briefcase,
@@ -11,11 +10,9 @@ import {
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import NavLink from "./Header/NavLink";
-import MobileMenu from "./Header/MobileMenu";
 import ApplicationLogo from "./ApplicationLogo";
 
 export default function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { url } = usePage();
 
@@ -57,16 +54,6 @@ export default function Navbar() {
 
                 <div className="flex md:order-2 items-center gap-2">
                     <ThemeToggle />
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        type="button"
-                        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-text-secondary rounded-xl md:hidden hover:bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-colors"
-                        aria-controls="navbar-sticky"
-                        aria-expanded={isOpen}
-                    >
-                        <span className="sr-only">Open main menu</span>
-                        <Menu className="w-6 h-6" />
-                    </button>
                 </div>
 
                 <div
@@ -88,12 +75,6 @@ export default function Navbar() {
                     </ul>
                 </div>
             </div>
-
-            <MobileMenu
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                links={links}
-            />
         </nav>
     );
 }

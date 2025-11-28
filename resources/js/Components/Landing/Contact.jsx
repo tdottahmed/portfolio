@@ -19,7 +19,7 @@ export default function Contact({ settings }) {
     };
 
     return (
-        <section id="contact" className="py-20 bg-surface-elevated">
+        <section id="contact" className="py-20">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Get In Touch</h2>
@@ -81,7 +81,7 @@ export default function Contact({ settings }) {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="bg-surface-base p-8 rounded-xl shadow-lg border border-border-subtle"
+                        className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle"
                     >
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>

@@ -5,7 +5,7 @@ export default function Testimonials({ testimonials }) {
     if (!testimonials || testimonials.length === 0) return null;
 
     return (
-        <section id="testimonials" className="py-20 bg-background-primary">
+        <section id="testimonials" className="py-20">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Client Testimonials</h2>
@@ -20,7 +20,7 @@ export default function Testimonials({ testimonials }) {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-surface-base p-8 rounded-xl shadow-lg border border-border-subtle relative"
+                            className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle relative"
                         >
                             <Quote className="absolute top-6 right-6 w-8 h-8 text-accent-primary/20" />
                             

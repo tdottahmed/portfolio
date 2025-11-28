@@ -5,7 +5,7 @@ export default function About({ settings }) {
     const aboutData = settings?.about ? (typeof settings.about === 'string' ? JSON.parse(settings.about) : settings.about) : {};
 
     return (
-        <section id="about" className="py-20 bg-surface-elevated">
+        <section id="about" className="py-20">
             <div className="container mx-auto px-6">
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -28,7 +28,7 @@ export default function About({ settings }) {
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="absolute -bottom-6 -right-6 bg-surface-base p-6 rounded-xl shadow-lg border border-border-subtle hidden md:block">
+                            <div className="absolute -bottom-6 -right-6 bg-surface-base/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-border-subtle hidden md:block">
                                 <div className="text-center">
                                     <p className="text-3xl font-bold text-accent-primary">{aboutData.years_experience || "5+"}</p>
                                     <p className="text-sm text-text-secondary">Years of<br/>Experience</p>
@@ -69,7 +69,7 @@ export default function About({ settings }) {
                                     href={aboutData.resume} 
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center px-6 py-3 bg-surface-base border border-border-subtle text-text-primary rounded-lg hover:bg-surface-elevated transition-colors shadow-sm"
+                                    className="inline-flex items-center px-6 py-3 bg-surface-base/80 backdrop-blur-md border border-border-subtle text-text-primary rounded-lg hover:bg-surface-elevated transition-colors shadow-sm"
                                 >
                                     <Download className="w-4 h-4 mr-2" />
                                     Download Resume

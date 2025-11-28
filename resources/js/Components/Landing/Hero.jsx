@@ -56,7 +56,7 @@ export default function Hero({ settings }) {
         },
         {
             icon: Award,
-            value: "5+",
+            value: "3+",
             label: "Years Exp.",
             color: "text-accent-secondary",
         },
@@ -127,75 +127,6 @@ export default function Hero({ settings }) {
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-12 sm:pt-16 pb-8 sm:pb-12">
-            {/* Enhanced Animated Background */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {/* Multiple Gradient Orbs */}
-                <motion.div
-                    animate={scalePulse}
-                    className="absolute top-10 right-10 w-72 h-72 sm:w-[500px] sm:h-[500px] bg-accent-primary/20 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{
-                        ...scalePulse,
-                        transition: { ...scalePulse.transition, delay: 1 },
-                    }}
-                    className="absolute bottom-10 left-10 w-72 h-72 sm:w-[600px] sm:h-[600px] bg-accent-tertiary/20 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{
-                        ...scalePulse,
-                        transition: { ...scalePulse.transition, delay: 2 },
-                    }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 sm:w-[700px] sm:h-[700px] bg-accent-secondary/15 rounded-full blur-3xl"
-                />
-
-                {/* Enhanced Grid Pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20" />
-
-                {/* Animated Rotating Rings */}
-                <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{
-                        duration: 30,
-                        repeat: Infinity,
-                        ease: "linear",
-                    }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-accent-primary/10 rounded-full hidden lg:block"
-                />
-                <motion.div
-                    animate={{ rotate: [360, 0] }}
-                    transition={{
-                        duration: 40,
-                        repeat: Infinity,
-                        ease: "linear",
-                    }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-accent-secondary/10 rounded-full hidden lg:block"
-                />
-
-                {/* Animated Particles */}
-                {[...Array(6)].map((_, i) => (
-                    <motion.div
-                        key={`particle-${i}`}
-                        animate={{
-                            y: [0, -100, 0],
-                            x: [0, Math.sin(i) * 50, 0],
-                            opacity: [0, 0.6, 0],
-                        }}
-                        transition={{
-                            duration: 8 + i,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: i * 1.2,
-                        }}
-                        className="absolute w-2 h-2 bg-accent-primary/40 rounded-full"
-                        style={{
-                            left: `${15 + i * 15}%`,
-                            top: `${20 + i * 10}%`,
-                        }}
-                    />
-                ))}
-            </div>
-
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 <motion.div
                     variants={containerVariants}
@@ -232,9 +163,9 @@ export default function Hero({ settings }) {
                         {/* Enhanced Eye-Catching Title */}
                         <motion.h1
                             variants={itemVariants}
-                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-text-primary mb-6 leading-[1.1] tracking-tight"
+                            className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-text-primary mb-6 leading-[1.1] tracking-tight"
                         >
-                            <motion.span
+                            {/* <motion.span
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{
@@ -245,7 +176,7 @@ export default function Hero({ settings }) {
                                 className="block"
                             >
                                 I'm a
-                            </motion.span>
+                            </motion.span> */}
                             <motion.span
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}

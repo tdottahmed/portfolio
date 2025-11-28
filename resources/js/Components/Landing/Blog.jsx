@@ -60,7 +60,7 @@ export default function Blog({ posts }) {
     };
 
     return (
-        <section id="blog" className="relative py-16 sm:py-20 lg:py-24 bg-background-primary overflow-hidden">
+        <section id="blog" className="relative py-16 sm:py-20 lg:py-24 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-tertiary/10 rounded-full blur-3xl" />
