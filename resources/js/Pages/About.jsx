@@ -11,7 +11,7 @@ export default function About({ settings, skills, experiences, education }) {
             <Head title="About Me" />
             <AboutComponent settings={settings} />
 
-            <div className="container mx-auto px-6 py-12 space-y-12">
+            <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
                 <Skills skills={skills} />
                 <Experience experiences={experiences} />
                 <Education education={education} />

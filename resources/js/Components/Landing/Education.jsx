@@ -4,7 +4,7 @@ export default function Education({ education }) {
     if (!education || education.length === 0) return null;
 
     return (
-        <section className="py-12">
+        <section className="py-12 max-w-7xl">
             <h3 className="text-2xl font-bold text-text-primary mb-6">
                 Education
             </h3>

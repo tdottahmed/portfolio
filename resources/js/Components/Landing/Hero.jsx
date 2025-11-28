@@ -126,7 +126,7 @@ export default function Hero({ settings }) {
     };
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-12 sm:pt-16 pb-8 sm:pb-12">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 <motion.div
                     variants={containerVariants}
