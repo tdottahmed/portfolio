@@ -1,6 +1,8 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, Link } from "@inertiajs/react";
 import Button from "@/Components/Button";
+import DatePicker from "@/Components/DatePicker";
+import { formatDate } from "@/Utils/date";
 import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
@@ -199,30 +201,24 @@ export default function Edit({ experience }) {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Start Date
-                            </label>
-                            <input
-                                type="date"
-                                value={data.start_date}
-                                onChange={(e) =>
-                                    setData("start_date", e.target.value)
+                            <DatePicker
+                                label="Start Date"
+                                selected={data.start_date}
+                                onChange={(date) =>
+                                    setData("start_date", date ? date.toISOString().split('T')[0] : "")
                                 }
-                                className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
+                                placeholder="Select start date"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-text-secondary mb-1">
-                                End Date
-                            </label>
-                            <input
-                                type="date"
-                                value={data.end_date}
-                                onChange={(e) =>
-                                    setData("end_date", e.target.value)
+                            <DatePicker
+                                label="End Date"
+                                selected={data.end_date}
+                                onChange={(date) =>
+                                    setData("end_date", date ? date.toISOString().split('T')[0] : "")
                                 }
                                 disabled={data.current}
-                                className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary disabled:opacity-50"
+                                placeholder="Select end date"
                             />
                         </div>
                         <div className="flex items-center pt-6">

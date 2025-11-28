@@ -40,7 +40,7 @@ export default function About({ settings }) {
                             <div className="absolute -bottom-6 -right-6 bg-surface-base/80 backdrop-blur-md p-6 rounded-xl shadow-lg border border-border-subtle hidden md:block">
                                 <div className="text-center">
                                     <p className="text-3xl font-bold text-accent-primary">
-                                        {aboutData.years_experience || "5+"}
+                                        {aboutData.years_experience || "3+"}
                                     </p>
                                     <p className="text-sm text-text-secondary">
                                         Years of
@@ -60,7 +60,7 @@ export default function About({ settings }) {
                                 className="text-text-secondary mb-8 prose prose-lg dark:prose-invert"
                                 dangerouslySetInnerHTML={{
                                     __html:
-                                        aboutData.bio ||
+                                        aboutData.description ||
                                         "<p>I am a passionate developer...</p>",
                                 }}
                             />

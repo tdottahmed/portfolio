@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react';
 import Button from '@/Components/Button';
+import { formatDate } from '@/Utils/date';
 
 export default function Index({ projects }) {
     const { delete: destroy } = useForm();
@@ -33,6 +34,7 @@ export default function Index({ projects }) {
                             <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Title</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Category</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Status</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Created</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Featured</th>
                             <th className="px-6 py-3 text-right text-xs font-medium text-text-secondary uppercase tracking-wider">Actions</th>
                         </tr>
@@ -57,6 +59,9 @@ export default function Index({ projects }) {
                                     }`}>
                                         {project.status}
                                     </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    {formatDate(project.created_at)}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {project.featured ? 'Yes' : 'No'}

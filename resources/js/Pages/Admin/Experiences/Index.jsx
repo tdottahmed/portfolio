@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import Button from '@/Components/Button';
+import { formatDate } from '@/Utils/date';
 
 export default function Index({ experiences }) {
     const { delete: destroy } = useForm();
@@ -47,8 +48,9 @@ export default function Index({ experiences }) {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {experience.position}
                                 </td>
+
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                                    {experience.start_date} - {experience.current ? 'Present' : experience.end_date}
+                                    {formatDate(experience.start_date, { year: 'numeric', month: 'short' })} - {experience.current ? 'Present' : formatDate(experience.end_date, { year: 'numeric', month: 'short' })}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {experience.type}

@@ -3,6 +3,8 @@ import { Head, useForm, Link } from "@inertiajs/react";
 import Button from "@/Components/Button";
 import ImageUploader from "@/Components/ImageUploader";
 import MultiImageUploader from "@/Components/MultiImageUploader";
+import DatePicker from "@/Components/DatePicker";
+import { formatDate } from "@/Utils/date";
 import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
@@ -599,37 +601,36 @@ export default function Create() {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Start Date
-                            </label>
-                            <input
-                                type="text"
-                                value={data.timeline.start}
-                                onChange={(e) =>
+                            <DatePicker
+                                label="Start Date"
+                                selected={data.timeline.start}
+                                onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        start: e.target.value,
+                                        start: date ? formatDate(date, { year: 'numeric', month: '2-digit' }).replace('/', '-') : "", // Format as YYYY-MM or similar if needed, but DatePicker returns Date object. Let's store as YYYY-MM for consistency with previous text input or full date?
+                                        // Previous input was text placeholder="YYYY-MM".
+                                        // Let's store as YYYY-MM-DD or YYYY-MM.
+                                        // If we use YYYY-MM, DatePicker might need showMonthYearPicker.
+                                        // Let's stick to full date YYYY-MM-DD for better data, or just YYYY-MM if strictly required.
+                                        // The placeholder said YYYY-MM. Let's try to keep it simple first.
+                                        // Actually, let's use full date YYYY-MM-DD for standard.
+                                        start: date ? date.toISOString().split('T')[0] : "",
                                     })
                                 }
-                                className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
-                                placeholder="YYYY-MM"
+                                placeholder="Select start date"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-text-secondary mb-1">
-                                End Date
-                            </label>
-                            <input
-                                type="text"
-                                value={data.timeline.end}
-                                onChange={(e) =>
+                            <DatePicker
+                                label="End Date"
+                                selected={data.timeline.end}
+                                onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        end: e.target.value,
+                                        end: date ? date.toISOString().split('T')[0] : "",
                                     })
                                 }
-                                className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
-                                placeholder="YYYY-MM"
+                                placeholder="Select end date"
                             />
                         </div>
                         <div>

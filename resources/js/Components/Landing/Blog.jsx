@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Clock, Tag, BookOpen, Sparkles } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import { formatDate } from "@/Utils/date";
 
 export default function Blog({ posts }) {
     // Dummy data fallback with placeholder images
@@ -167,9 +168,10 @@ export default function Blog({ posts }) {
                             <div className="p-6 sm:p-8 flex flex-col flex-grow">
                                 {/* Meta Info */}
                                 <div className="flex items-center text-xs text-text-secondary mb-4 gap-4">
+
                                     <div className="flex items-center gap-1.5">
                                         <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                                        {new Date(post.published_at).toLocaleDateString(undefined, {
+                                        {formatDate(post.published_at, {
                                             year: 'numeric',
                                             month: 'short',
                                             day: 'numeric'

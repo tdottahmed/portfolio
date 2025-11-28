@@ -7,6 +7,7 @@ import {
     Trophy,
     ArrowRight,
 } from "lucide-react";
+import { formatDate } from "@/Utils/date";
 
 export default function Experience({ experiences }) {
     const displayExperiences =
@@ -117,12 +118,13 @@ export default function Experience({ experiences }) {
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-3 items-center text-sm">
+
                                     <span className="px-3 py-1 bg-surface-elevated rounded-full border border-border-subtle text-text-secondary font-medium flex items-center gap-1.5">
                                         <Calendar className="w-4 h-4" />
-                                        {exp.start_date} -{" "}
+                                        {formatDate(exp.start_date, { year: 'numeric', month: 'short' })} -{" "}
                                         {exp.is_current
                                             ? "Present"
-                                            : exp.end_date}
+                                            : formatDate(exp.end_date, { year: 'numeric', month: 'short' })}
                                     </span>
                                     <span className="px-3 py-1 bg-surface-elevated rounded-full border border-border-subtle text-text-secondary font-medium flex items-center gap-1.5">
                                         <MapPin className="w-4 h-4" />

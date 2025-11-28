@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import Button from '@/Components/Button';
+import { formatDate } from '@/Utils/date';
 
 export default function Index({ education }) {
     const { delete: destroy } = useForm();
@@ -47,8 +48,9 @@ export default function Index({ education }) {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {edu.degree} {edu.field && `in ${edu.field}`}
                                 </td>
+
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                                    {edu.start_date} - {edu.end_date || 'Present'}
+                                    {formatDate(edu.start_date, { year: 'numeric', month: 'short' })} - {edu.end_date ? formatDate(edu.end_date, { year: 'numeric', month: 'short' }) : 'Present'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                                     {edu.gpa} {edu.max_gpa && `/ ${edu.max_gpa}`}

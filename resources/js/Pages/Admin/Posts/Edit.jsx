@@ -2,6 +2,8 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, Link } from "@inertiajs/react";
 import Button from "@/Components/Button";
 import ImageUploader from "@/Components/ImageUploader";
+import DatePicker from "@/Components/DatePicker";
+import { formatDate } from "@/Utils/date";
 import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
@@ -176,16 +178,13 @@ export default function Edit({ post }) {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-text-secondary mb-1">
-                                Published Date
-                            </label>
-                            <input
-                                type="date"
-                                value={data.published_at}
-                                onChange={(e) =>
-                                    setData("published_at", e.target.value)
+                            <DatePicker
+                                label="Published Date"
+                                selected={data.published_at}
+                                onChange={(date) =>
+                                    setData("published_at", date ? date.toISOString().split('T')[0] : "")
                                 }
-                                className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
+                                placeholder="Select published date"
                             />
                         </div>
                         <div>

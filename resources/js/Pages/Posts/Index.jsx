@@ -1,7 +1,7 @@
-import MainLayout from '@/Layouts/MainLayout';
-import { Head, Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, Tag, BookOpen } from 'lucide-react';
+import MainLayout from "@/Layouts/MainLayout";
+import { Head, Link } from "@inertiajs/react";
+import { motion } from "framer-motion";
+import { ArrowRight, Calendar, Clock, Tag, BookOpen } from "lucide-react";
 
 export default function Index({ posts }) {
     const containerVariants = {
@@ -58,10 +58,14 @@ export default function Index({ posts }) {
                             </span>
                         </motion.div>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight">
-                            Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Articles</span>
+                            Latest{" "}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
+                                Articles
+                            </span>
                         </h1>
                         <p className="text-text-secondary text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Insights, tutorials, and thoughts on web development, design, and technology.
+                            Insights, tutorials, and thoughts on web
+                            development, design, and technology.
                         </p>
                     </motion.div>
 
@@ -80,18 +84,24 @@ export default function Index({ posts }) {
                                 className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col h-full"
                             >
                                 {/* Image Container */}
-                                <Link href={route('posts.show', post.slug)} className="relative overflow-hidden aspect-[16/10] bg-surface-elevated block">
+                                <Link
+                                    href={route("posts.show", post.slug)}
+                                    className="relative overflow-hidden aspect-[16/10] bg-surface-elevated block"
+                                >
                                     <motion.img
-                                        src={post.image || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"}
+                                        src={
+                                            post.image ||
+                                            "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
+                                        }
                                         alt={post.title}
                                         className="w-full h-full object-cover"
                                         whileHover={{ scale: 1.1 }}
                                         transition={{ duration: 0.5 }}
                                     />
-                                    
+
                                     {/* Gradient Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-background-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    
+
                                     {/* Category Badge */}
                                     <div className="absolute top-4 left-4">
                                         <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-base/90 backdrop-blur-md text-text-primary text-xs font-bold rounded-full uppercase tracking-wider border border-border-subtle shadow-sm">
@@ -103,7 +113,7 @@ export default function Index({ posts }) {
                                     {/* Read Time - Bottom Right */}
                                     <div className="absolute bottom-4 right-4">
                                         <span className="px-3 py-1.5 bg-surface-base/90 backdrop-blur-md text-text-secondary text-xs font-medium rounded-full border border-border-subtle shadow-sm">
-                                            {post.read_time || '5 min read'}
+                                            {post.read_time || "5 min read"}
                                         </span>
                                     </div>
                                 </Link>
@@ -114,21 +124,28 @@ export default function Index({ posts }) {
                                     <div className="flex items-center text-xs text-text-secondary mb-4 gap-4">
                                         <div className="flex items-center gap-1.5">
                                             <Calendar className="w-3 h-3" />
-                                            {new Date(post.published_at).toLocaleDateString(undefined, {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric'
+                                            {new Date(
+                                                post.published_at
+                                            ).toLocaleDateString(undefined, {
+                                                year: "numeric",
+                                                month: "short",
+                                                day: "numeric",
                                             })}
                                         </div>
                                         <div className="flex items-center gap-1.5">
                                             <Clock className="w-3 h-3" />
-                                            {post.read_time || '5 min read'}
+                                            {post.read_time || "5 min read"}
                                         </div>
                                     </div>
 
                                     {/* Title */}
                                     <h3 className="text-xl font-bold text-text-primary mb-3 group-hover:text-accent-primary transition-colors line-clamp-2 leading-tight">
-                                        <Link href={route('posts.show', post.slug)}>
+                                        <Link
+                                            href={route(
+                                                "posts.show",
+                                                post.slug
+                                            )}
+                                        >
                                             {post.title}
                                         </Link>
                                     </h3>
@@ -140,7 +157,7 @@ export default function Index({ posts }) {
 
                                     {/* Read More Link */}
                                     <Link
-                                        href={route('posts.show', post.slug)}
+                                        href={route("posts.show", post.slug)}
                                         className="inline-flex items-center gap-2 text-accent-primary hover:text-accent-secondary transition-colors font-semibold text-sm group/link mt-auto"
                                     >
                                         <span>Read More</span>
