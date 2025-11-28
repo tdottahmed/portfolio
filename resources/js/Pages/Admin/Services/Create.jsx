@@ -1,20 +1,19 @@
-import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, useForm, Link } from '@inertiajs/react';
-import Button from '@/Components/Button';
-import { ArrowLeft, X } from 'lucide-react';
-import { ArrowLeft, X, Wand2, Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import axios from 'axios';
+import AdminLayout from "@/Layouts/AdminLayout";
+import { Head, useForm, Link } from "@inertiajs/react";
+import Button from "@/Components/Button";
+import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
-        title: '',
-        icon: '',
-        description: '',
-        features: []
+        title: "",
+        icon: "",
+        description: "",
+        features: [],
     });
 
-    const [featureInput, setFeatureInput] = useState('');
+    const [featureInput, setFeatureInput] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
 
     const handleGenerate = async () => {
@@ -25,12 +24,15 @@ export default function Create() {
 
         setIsGenerating(true);
         try {
-            const response = await axios.post(route("admin.services.generate"), {
-                title: data.title
-            });
+            const response = await axios.post(
+                route("admin.services.generate"),
+                {
+                    title: data.title,
+                }
+            );
 
             const generatedData = response.data.data;
-            setData(prev => ({
+            setData((prev) => ({
                 ...prev,
                 description: generatedData.description || prev.description,
                 features: generatedData.features || prev.features,
@@ -46,18 +48,21 @@ export default function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('admin.services.store'));
+        post(route("admin.services.store"));
     };
 
     const addFeature = () => {
         if (featureInput.trim()) {
-            setData('features', [...data.features, featureInput.trim()]);
-            setFeatureInput('');
+            setData("features", [...data.features, featureInput.trim()]);
+            setFeatureInput("");
         }
     };
 
     const removeFeature = (index) => {
-        setData('features', data.features.filter((_, i) => i !== index));
+        setData(
+            "features",
+            data.features.filter((_, i) => i !== index)
+        );
     };
 
     return (
@@ -66,11 +71,16 @@ export default function Create() {
 
             <div className="mb-6 flex justify-between items-end">
                 <div>
-                    <Link href={route('admin.services.index')} className="flex items-center text-text-secondary hover:text-text-primary mb-4">
+                    <Link
+                        href={route("admin.services.index")}
+                        className="flex items-center text-text-secondary hover:text-text-primary mb-4"
+                    >
                         <ArrowLeft className="w-4 h-4 mr-2" />
                         Back to Services
                     </Link>
-                    <h1 className="text-2xl font-bold text-text-primary">Add New Service</h1>
+                    <h1 className="text-2xl font-bold text-text-primary">
+                        Add New Service
+                    </h1>
                 </div>
                 <Button
                     type="button"
@@ -95,56 +105,94 @@ export default function Create() {
             <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl">
                 <div className="bg-surface-base border border-border-subtle rounded-lg p-6 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-text-secondary mb-1">Title</label>
+                        <label className="block text-sm font-medium text-text-secondary mb-1">
+                            Title
+                        </label>
                         <input
                             type="text"
                             value={data.title}
-                            onChange={e => setData('title', e.target.value)}
+                            onChange={(e) => setData("title", e.target.value)}
                             className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
                         />
-                        {errors.title && <div className="text-semantic-error text-sm mt-1">{errors.title}</div>}
+                        {errors.title && (
+                            <div className="text-semantic-error text-sm mt-1">
+                                {errors.title}
+                            </div>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-secondary mb-1">Icon (Lucide Icon Name)</label>
+                        <label className="block text-sm font-medium text-text-secondary mb-1">
+                            Icon (Lucide Icon Name)
+                        </label>
                         <input
                             type="text"
                             value={data.icon}
-                            onChange={e => setData('icon', e.target.value)}
+                            onChange={(e) => setData("icon", e.target.value)}
                             className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
                             placeholder="e.g., Code, Smartphone, ShoppingCart"
                         />
-                        {errors.icon && <div className="text-semantic-error text-sm mt-1">{errors.icon}</div>}
+                        {errors.icon && (
+                            <div className="text-semantic-error text-sm mt-1">
+                                {errors.icon}
+                            </div>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-secondary mb-1">Description</label>
+                        <label className="block text-sm font-medium text-text-secondary mb-1">
+                            Description
+                        </label>
                         <textarea
                             value={data.description}
-                            onChange={e => setData('description', e.target.value)}
+                            onChange={(e) =>
+                                setData("description", e.target.value)
+                            }
                             rows="4"
                             className="w-full bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
                         ></textarea>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-text-secondary mb-1">Features</label>
+                        <label className="block text-sm font-medium text-text-secondary mb-1">
+                            Features
+                        </label>
                         <div className="flex gap-2 mb-2">
                             <input
                                 type="text"
                                 value={featureInput}
-                                onChange={e => setFeatureInput(e.target.value)}
-                                onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                                onChange={(e) =>
+                                    setFeatureInput(e.target.value)
+                                }
+                                onKeyDown={(e) =>
+                                    e.key === "Enter" &&
+                                    (e.preventDefault(), addFeature())
+                                }
                                 className="flex-1 bg-surface-elevated border border-border-subtle rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-accent-primary"
                                 placeholder="Add feature..."
                             />
-                            <Button type="button" onClick={addFeature} variant="secondary">Add</Button>
+                            <Button
+                                type="button"
+                                onClick={addFeature}
+                                variant="secondary"
+                            >
+                                Add
+                            </Button>
                         </div>
                         <ul className="space-y-2">
                             {data.features.map((feature, index) => (
-                                <li key={index} className="flex items-center justify-between p-2 bg-surface-elevated rounded-lg">
-                                    <span className="text-sm text-text-primary">{feature}</span>
-                                    <button type="button" onClick={() => removeFeature(index)} className="text-text-secondary hover:text-semantic-error">
+                                <li
+                                    key={index}
+                                    className="flex items-center justify-between p-2 bg-surface-elevated rounded-lg"
+                                >
+                                    <span className="text-sm text-text-primary">
+                                        {feature}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeFeature(index)}
+                                        className="text-text-secondary hover:text-semantic-error"
+                                    >
                                         <X className="w-4 h-4" />
                                     </button>
                                 </li>
