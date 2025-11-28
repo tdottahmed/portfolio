@@ -332,7 +332,9 @@ export default function Create() {
                             <ImageUploader
                                 label="Gallery Cover Image"
                                 image={data.gallery_image}
-                                onChange={(file) => setData("gallery_image", file)}
+                                onChange={(file) =>
+                                    setData("gallery_image", file)
+                                }
                                 error={errors.gallery_image}
                             />
                         </div>
@@ -607,14 +609,12 @@ export default function Create() {
                                 onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        start: date ? formatDate(date, { year: 'numeric', month: '2-digit' }).replace('/', '-') : "", // Format as YYYY-MM or similar if needed, but DatePicker returns Date object. Let's store as YYYY-MM for consistency with previous text input or full date?
-                                        // Previous input was text placeholder="YYYY-MM".
-                                        // Let's store as YYYY-MM-DD or YYYY-MM.
-                                        // If we use YYYY-MM, DatePicker might need showMonthYearPicker.
-                                        // Let's stick to full date YYYY-MM-DD for better data, or just YYYY-MM if strictly required.
-                                        // The placeholder said YYYY-MM. Let's try to keep it simple first.
-                                        // Actually, let's use full date YYYY-MM-DD for standard.
-                                        start: date ? date.toISOString().split('T')[0] : "",
+                                        start: date
+                                            ? formatDate(date, {
+                                                  year: "numeric",
+                                                  month: "2-digit",
+                                              }).replace("/", "-")
+                                            : "",
                                     })
                                 }
                                 placeholder="Select start date"
@@ -627,7 +627,9 @@ export default function Create() {
                                 onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        end: date ? date.toISOString().split('T')[0] : "",
+                                        end: date
+                                            ? date.toISOString().split("T")[0]
+                                            : "",
                                     })
                                 }
                                 placeholder="Select end date"
