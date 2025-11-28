@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
     ArrowRight,
     Github,
@@ -8,24 +8,15 @@ import {
     Sparkles,
     Code,
     Rocket,
-    Globe,
-    Cpu,
-    Zap,
     Award,
     Briefcase,
     Users,
-    TrendingUp,
-    Star,
-    Layers,
-    Code2,
-    Smartphone,
-    Monitor,
-    Database,
-    Cloud,
     CheckCircle2,
 } from "lucide-react";
 
 export default function Hero({ settings }) {
+    const shouldReduceMotion = useReducedMotion();
+
     const heroData = settings?.hero
         ? typeof settings.hero === "string"
             ? JSON.parse(settings.hero)
@@ -68,60 +59,27 @@ export default function Hero({ settings }) {
         },
     ];
 
-    // Floating icons for right column
-    const floatingIcons = [
-        { Icon: Code2, delay: 0, x: "20%", y: "10%" },
-        { Icon: Layers, delay: 0.5, x: "75%", y: "20%" },
-        { Icon: Smartphone, delay: 1, x: "15%", y: "60%" },
-        { Icon: Monitor, delay: 1.5, x: "70%", y: "55%" },
-        { Icon: Database, delay: 2, x: "45%", y: "8%" },
-        { Icon: Cloud, delay: 2.5, x: "25%", y: "45%" },
-        { Icon: Zap, delay: 3, x: "65%", y: "75%" },
-        { Icon: Globe, delay: 3.5, x: "55%", y: "70%" },
-    ];
-
-    // Animation variants
+    // Optimized animation variants - shorter durations, less complex
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.08,
-                delayChildren: 0.1,
+                staggerChildren: shouldReduceMotion ? 0 : 0.05,
+                delayChildren: shouldReduceMotion ? 0 : 0.1,
             },
         },
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1],
+                duration: shouldReduceMotion ? 0.3 : 0.5,
+                ease: "easeOut",
             },
-        },
-    };
-
-    const floatingAnimation = (delay = 0) => ({
-        y: [-20, 20, -20],
-        rotate: [-5, 5, -5],
-        transition: {
-            duration: 6 + delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: delay,
-        },
-    });
-
-    const scalePulse = {
-        scale: [1, 1.1, 1],
-        opacity: [0.6, 0.9, 0.6],
-        transition: {
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
         },
     };
 
@@ -139,100 +97,39 @@ export default function Hero({ settings }) {
                         variants={itemVariants}
                         className="flex flex-col text-center lg:text-left"
                     >
-                        {/* Animated Greeting Badge */}
+                        {/* Simplified Greeting Badge */}
                         <motion.div
                             variants={itemVariants}
-                            whileHover={{ scale: 1.05, y: -2 }}
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-surface-elevated/60 backdrop-blur-md rounded-full border border-accent-primary/30 mb-6 shadow-lg w-fit mx-auto lg:mx-0"
                         >
-                            <motion.div
-                                animate={{ rotate: [0, 360] }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: "linear",
-                                }}
-                            >
-                                <Sparkles className="w-4 h-4 text-accent-primary" />
-                            </motion.div>
+                            <Sparkles className="w-4 h-4 text-accent-primary" />
                             <span className="text-accent-primary font-semibold text-sm tracking-wide uppercase">
                                 {displayData.greeting}
                             </span>
                         </motion.div>
 
-                        {/* Enhanced Eye-Catching Title */}
+                        {/* Simplified Title */}
                         <motion.h1
                             variants={itemVariants}
                             className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-text-primary mb-6 leading-[1.1] tracking-tight"
                         >
-                            {/* <motion.span
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
+                            <span className="block relative bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary">
+                                {displayData.title}
+                            </span>
+                            {/* Simple underline - CSS animation only */}
+                            <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: "100%" }}
                                 transition={{
-                                    delay: 0.3,
-                                    duration: 0.8,
+                                    delay: shouldReduceMotion ? 0 : 0.3,
+                                    duration: shouldReduceMotion ? 0.2 : 0.6,
                                     ease: "easeOut",
                                 }}
-                                className="block"
-                            >
-                                I'm a
-                            </motion.span> */}
-                            <motion.span
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                    delay: 0.5,
-                                    duration: 0.8,
-                                    ease: "backOut",
-                                }}
-                                className="block relative"
-                            >
-                                <motion.span
-                                    animate={{
-                                        backgroundPosition: [
-                                            "0%",
-                                            "100%",
-                                            "0%",
-                                        ],
-                                    }}
-                                    transition={{
-                                        duration: 5,
-                                        repeat: Infinity,
-                                        ease: "linear",
-                                    }}
-                                    className="bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary bg-[length:300%_auto] relative inline-block"
-                                >
-                                    {displayData.title
-                                        .split(" ")
-                                        .map((word, i) => (
-                                            <motion.span
-                                                key={i}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{
-                                                    delay: 0.6 + i * 0.1,
-                                                }}
-                                                className="inline-block mr-2"
-                                            >
-                                                {word}
-                                            </motion.span>
-                                        ))}
-                                </motion.span>
-                                {/* Animated underline */}
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: "100%" }}
-                                    transition={{
-                                        delay: 1,
-                                        duration: 1,
-                                        ease: "easeOut",
-                                    }}
-                                    className="absolute -bottom-4 left-0 h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary rounded-full"
-                                />
-                            </motion.span>
+                                className="absolute -bottom-4 left-0 h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary rounded-full"
+                            />
                         </motion.h1>
 
-                        {/* Enhanced Subtitle */}
+                        {/* Subtitle */}
                         <motion.p
                             variants={itemVariants}
                             className="text-base sm:text-lg md:text-xl text-text-secondary mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light"
@@ -240,151 +137,85 @@ export default function Hero({ settings }) {
                             {displayData.subtitle}
                         </motion.p>
 
-                        {/* Enhanced CTA Buttons */}
+                        {/* CTA Buttons */}
                         <motion.div
                             variants={itemVariants}
                             className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-8 w-full sm:w-auto"
                         >
-                            <motion.a
+                            <a
                                 href="#projects"
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
                                 className="group relative w-full sm:w-auto px-8 py-4 bg-accent-primary text-white rounded-full hover:bg-accent-primary/90 transition-all duration-300 shadow-xl shadow-accent-primary/30 hover:shadow-2xl hover:shadow-accent-primary/50 flex items-center justify-center gap-2 font-bold text-base sm:text-lg overflow-hidden"
                             >
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-accent-secondary to-accent-tertiary opacity-0 group-hover:opacity-100 transition-opacity"
-                                    style={{
-                                        backgroundSize: "200% 200%",
-                                        animation: "gradient 3s ease infinite",
-                                    }}
-                                />
                                 <span className="relative z-10">
                                     View My Work
                                 </span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-                            </motion.a>
-                            <motion.a
+                            </a>
+                            <a
                                 href="#contact"
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
                                 className="w-full sm:w-auto px-8 py-4 bg-surface-elevated/60 backdrop-blur-md border-2 border-border-subtle text-text-primary rounded-full hover:bg-surface-elevated hover:border-accent-primary/50 transition-all duration-300 font-bold text-base sm:text-lg flex items-center justify-center gap-2 shadow-lg"
                             >
                                 <Mail className="w-5 h-5" />
                                 Contact Me
-                            </motion.a>
+                            </a>
                         </motion.div>
 
-                        {/* Enhanced Social Buttons */}
+                        {/* Social Buttons */}
                         <motion.div
                             variants={itemVariants}
                             className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4"
                         >
                             {socialLinks.github && (
-                                <motion.a
+                                <a
                                     href={socialLinks.github}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    whileHover={{
-                                        scale: 1.1,
-                                        y: -3,
-                                        rotate: 5,
-                                    }}
-                                    whileTap={{ scale: 0.9 }}
                                     className="flex items-center gap-2 px-5 py-2.5 bg-surface-elevated/60 backdrop-blur-md rounded-xl border border-border-subtle text-text-secondary hover:text-white hover:bg-[#333] hover:border-[#333] transition-all duration-300 font-medium shadow-md"
                                 >
                                     <Github className="w-5 h-5" />
                                     <span>Github</span>
-                                </motion.a>
+                                </a>
                             )}
                             {socialLinks.linkedin && (
-                                <motion.a
+                                <a
                                     href={socialLinks.linkedin}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    whileHover={{
-                                        scale: 1.1,
-                                        y: -3,
-                                        rotate: -5,
-                                    }}
-                                    whileTap={{ scale: 0.9 }}
                                     className="flex items-center gap-2 px-5 py-2.5 bg-surface-elevated/60 backdrop-blur-md rounded-xl border border-border-subtle text-text-secondary hover:text-white hover:bg-[#0077b5] hover:border-[#0077b5] transition-all duration-300 font-medium shadow-md"
                                 >
                                     <Linkedin className="w-5 h-5" />
                                     <span>LinkedIn</span>
-                                </motion.a>
+                                </a>
                             )}
                             {socialLinks.twitter && (
-                                <motion.a
+                                <a
                                     href={socialLinks.twitter}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    whileHover={{
-                                        scale: 1.1,
-                                        y: -3,
-                                        rotate: 5,
-                                    }}
-                                    whileTap={{ scale: 0.9 }}
                                     className="flex items-center gap-2 px-5 py-2.5 bg-surface-elevated/60 backdrop-blur-md rounded-xl border border-border-subtle text-text-secondary hover:text-white hover:bg-[#1DA1F2] hover:border-[#1DA1F2] transition-all duration-300 font-medium shadow-md"
                                 >
                                     <Twitter className="w-5 h-5" />
                                     <span>Twitter</span>
-                                </motion.a>
+                                </a>
                             )}
                             {socialLinks.email && (
-                                <motion.a
+                                <a
                                     href={`mailto:${socialLinks.email}`}
-                                    whileHover={{
-                                        scale: 1.1,
-                                        y: -3,
-                                        rotate: -5,
-                                    }}
-                                    whileTap={{ scale: 0.9 }}
                                     className="flex items-center gap-2 px-5 py-2.5 bg-surface-elevated/60 backdrop-blur-md rounded-xl border border-border-subtle text-text-secondary hover:text-white hover:bg-accent-primary hover:border-accent-primary transition-all duration-300 font-medium shadow-md"
                                 >
                                     <Mail className="w-5 h-5" />
                                     <span>Email</span>
-                                </motion.a>
+                                </a>
                             )}
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column - Visual Elements */}
+                    {/* Right Column - Visual Elements (Desktop Only) */}
                     <motion.div
                         variants={itemVariants}
                         className="relative hidden lg:flex items-center justify-center h-full min-h-[500px]"
                     >
                         <div className="relative w-full h-full max-w-lg">
-                            {/* Floating Icons */}
-                            {floatingIcons.map(
-                                ({ Icon, delay, x, y }, index) => (
-                                    <motion.div
-                                        key={index}
-                                        initial={{ opacity: 0, scale: 0 }}
-                                        animate={{
-                                            opacity: [0.3, 0.6, 0.3],
-                                            scale: [0.8, 1.2, 0.8],
-                                            ...floatingAnimation(delay),
-                                        }}
-                                        transition={{
-                                            opacity: {
-                                                duration: 4 + delay,
-                                                repeat: Infinity,
-                                                ease: "easeInOut",
-                                            },
-                                            scale: {
-                                                duration: 5 + delay,
-                                                repeat: Infinity,
-                                                ease: "easeInOut",
-                                            },
-                                        }}
-                                        className="absolute"
-                                        style={{ left: x, top: y }}
-                                    >
-                                        <Icon className="w-10 h-10 sm:w-14 sm:h-14 text-accent-primary/40" />
-                                    </motion.div>
-                                )
-                            )}
-
                             {/* Stats Cards in Center */}
                             <div className="relative z-10 grid grid-cols-3 gap-4 mt-20">
                                 {stats.map((stat, index) => {
@@ -394,20 +225,21 @@ export default function Hero({ settings }) {
                                             key={index}
                                             initial={{
                                                 opacity: 0,
-                                                scale: 0.8,
-                                                y: 50,
+                                                scale: 0.9,
                                             }}
                                             animate={{
                                                 opacity: 1,
                                                 scale: 1,
-                                                y: 0,
                                             }}
                                             transition={{
-                                                delay: 1 + index * 0.2,
-                                                duration: 0.6,
-                                                ease: "backOut",
+                                                delay: shouldReduceMotion
+                                                    ? 0
+                                                    : 0.3 + index * 0.1,
+                                                duration: shouldReduceMotion
+                                                    ? 0.2
+                                                    : 0.4,
+                                                ease: "easeOut",
                                             }}
-                                            whileHover={{ scale: 1.1, y: -10 }}
                                             className="bg-surface-elevated/80 backdrop-blur-md p-6 rounded-2xl border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 shadow-xl text-center"
                                         >
                                             <IconComponent
@@ -424,28 +256,14 @@ export default function Hero({ settings }) {
                                 })}
                             </div>
 
-                            {/* Large Floating Badge */}
+                            {/* Static Badge - Available for Work */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0, rotate: -10 }}
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                    rotate: 0,
-                                    y: [0, -15, 0],
-                                }}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
                                 transition={{
-                                    opacity: { delay: 1.5, duration: 0.5 },
-                                    scale: {
-                                        delay: 1.5,
-                                        duration: 0.5,
-                                        ease: "backOut",
-                                    },
-                                    rotate: { delay: 1.5, duration: 0.5 },
-                                    y: {
-                                        duration: 4,
-                                        repeat: Infinity,
-                                        ease: "easeInOut",
-                                    },
+                                    delay: shouldReduceMotion ? 0 : 0.6,
+                                    duration: shouldReduceMotion ? 0.2 : 0.4,
+                                    ease: "easeOut",
                                 }}
                                 className="absolute -right-8 top-1/4 bg-surface-elevated/90 backdrop-blur-md p-6 rounded-2xl border border-border-subtle shadow-2xl"
                             >
@@ -464,29 +282,14 @@ export default function Hero({ settings }) {
                                 </div>
                             </motion.div>
 
-                            {/* Another Floating Badge */}
+                            {/* Static Badge - Fast Delivery */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0, rotate: 10 }}
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                    rotate: 0,
-                                    y: [0, 15, 0],
-                                }}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
                                 transition={{
-                                    opacity: { delay: 2, duration: 0.5 },
-                                    scale: {
-                                        delay: 2,
-                                        duration: 0.5,
-                                        ease: "backOut",
-                                    },
-                                    rotate: { delay: 2, duration: 0.5 },
-                                    y: {
-                                        duration: 5,
-                                        repeat: Infinity,
-                                        ease: "easeInOut",
-                                        delay: 1,
-                                    },
+                                    delay: shouldReduceMotion ? 0 : 0.7,
+                                    duration: shouldReduceMotion ? 0.2 : 0.4,
+                                    ease: "easeOut",
                                 }}
                                 className="absolute -left-8 bottom-1/4 bg-surface-elevated/90 backdrop-blur-md p-6 rounded-2xl border border-border-subtle shadow-2xl"
                             >
@@ -505,38 +308,20 @@ export default function Hero({ settings }) {
                                 </div>
                             </motion.div>
 
-                            {/* Central Illustration/Icon */}
+                            {/* Static Central Icon */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
+                                initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{
-                                    delay: 1.2,
-                                    duration: 0.8,
-                                    ease: "backOut",
+                                    delay: shouldReduceMotion ? 0 : 0.5,
+                                    duration: shouldReduceMotion ? 0.2 : 0.4,
+                                    ease: "easeOut",
                                 }}
                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                             >
-                                <motion.div
-                                    animate={{
-                                        rotate: [0, 360],
-                                        scale: [1, 1.1, 1],
-                                    }}
-                                    transition={{
-                                        rotate: {
-                                            duration: 20,
-                                            repeat: Infinity,
-                                            ease: "linear",
-                                        },
-                                        scale: {
-                                            duration: 4,
-                                            repeat: Infinity,
-                                            ease: "easeInOut",
-                                        },
-                                    }}
-                                    className="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-accent-primary/20 to-accent-tertiary/20 rounded-full flex items-center justify-center border-2 border-accent-primary/30 backdrop-blur-sm"
-                                >
+                                <div className="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-accent-primary/20 to-accent-tertiary/20 rounded-full flex items-center justify-center border-2 border-accent-primary/30 backdrop-blur-sm">
                                     <Code className="w-16 h-16 sm:w-20 sm:h-20 text-accent-primary" />
-                                </motion.div>
+                                </div>
                             </motion.div>
                         </div>
                     </motion.div>
@@ -551,10 +336,16 @@ export default function Hero({ settings }) {
                             return (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.8 + index * 0.1 }}
-                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    transition={{
+                                        delay: shouldReduceMotion
+                                            ? 0
+                                            : 0.4 + index * 0.05,
+                                        duration: shouldReduceMotion
+                                            ? 0.2
+                                            : 0.3,
+                                    }}
                                     className="bg-surface-elevated/60 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 shadow-lg text-center"
                                 >
                                     <IconComponent
@@ -573,27 +364,19 @@ export default function Hero({ settings }) {
                 </motion.div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Simplified Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
+                transition={{ delay: shouldReduceMotion ? 0 : 0.8 }}
                 className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
             >
                 <span className="text-xs text-text-secondary uppercase tracking-wider font-medium">
                     Scroll
                 </span>
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
-                    className="w-6 h-10 border-2 border-border-subtle rounded-full flex items-start justify-center p-2"
-                >
+                <div className="w-6 h-10 border-2 border-border-subtle rounded-full flex items-start justify-center p-2">
                     <motion.div
-                        animate={{ y: [0, 14, 0] }}
+                        animate={shouldReduceMotion ? {} : { y: [0, 14, 0] }}
                         transition={{
                             duration: 2,
                             repeat: Infinity,
@@ -601,7 +384,7 @@ export default function Hero({ settings }) {
                         }}
                         className="w-1.5 h-1.5 bg-accent-primary rounded-full"
                     />
-                </motion.div>
+                </div>
             </motion.div>
         </section>
     );
