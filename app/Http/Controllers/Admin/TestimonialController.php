@@ -12,6 +12,11 @@ class TestimonialController extends Controller
     /**
      * Display a listing of the resource.
      */
+    use \App\Traits\FileUploadTrait;
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $testimonials = Testimonial::latest()->get();
@@ -37,11 +42,15 @@ class TestimonialController extends Controller
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'company' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'rating' => 'required|integer|min:1|max:5',
             'text' => 'required|string',
             'project' => 'nullable|string|max:255',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadFile($request->file('image'), 'testimonials');
+        }
 
         Testimonial::create($validated);
 
@@ -75,11 +84,22 @@ class TestimonialController extends Controller
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'company' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable',
             'rating' => 'required|integer|min:1|max:5',
             'text' => 'required|string',
             'project' => 'nullable|string|max:255',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadFile($request->file('image'), 'testimonials', $testimonial->image);
+        } elseif ($request->input('image') === null || $request->input('image') === 'null') {
+            if ($testimonial->image) {
+                $this->deleteFile($testimonial->image);
+            }
+            $validated['image'] = null;
+        } else {
+            unset($validated['image']);
+        }
 
         $testimonial->update($validated);
 
@@ -91,6 +111,9 @@ class TestimonialController extends Controller
      */
     public function destroy(Testimonial $testimonial)
     {
+        if ($testimonial->image) {
+            $this->deleteFile($testimonial->image);
+        }
         $testimonial->delete();
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimonial deleted successfully.');
     }

@@ -104,7 +104,7 @@ export default function Skills({ skills }) {
     };
 
     return (
-        <section className="relative py-16 sm:py-20 lg:py-24 bg-background-secondary overflow-hidden">
+        <section className="relative py-16 sm:py-20 lg:py-24  overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-accent-secondary/10 rounded-full blur-3xl" />

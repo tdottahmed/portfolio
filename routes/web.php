@@ -25,15 +25,25 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class)->only(['index', 'show', 'destroy'])->names('admin.messages');
-
+    Route::post('/projects/generate', [\App\Http\Controllers\Admin\ProjectController::class, 'generate'])->name('admin.projects.generate');
+    Route::post('/projects/generate-image', [\App\Http\Controllers\Admin\ProjectController::class, 'generateImage'])->name('admin.projects.generate-image');
     Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class)->names('admin.projects');
     Route::resource('skills', \App\Http\Controllers\Admin\SkillController::class)->names('admin.skills');
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->names('admin.services');
+    
+    Route::post('/experiences/generate', [\App\Http\Controllers\Admin\ExperienceController::class, 'generate'])->name('admin.experiences.generate');
     Route::resource('experiences', \App\Http\Controllers\Admin\ExperienceController::class)->names('admin.experiences');
+    
+    Route::post('/education/generate', [\App\Http\Controllers\Admin\EducationController::class, 'generate'])->name('admin.education.generate');
     Route::resource('education', \App\Http\Controllers\Admin\EducationController::class)->names('admin.education');
-    Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class)->names('admin.testimonials');
+    
+    Route::post('/services/generate', [\App\Http\Controllers\Admin\ServiceController::class, 'generate'])->name('admin.services.generate');
+    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class)->names('admin.services');
+    
+    Route::post('/posts/generate', [\App\Http\Controllers\Admin\PostController::class, 'generate'])->name('admin.posts.generate');
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class)->names('admin.posts');
+
+    Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class)->names('admin.testimonials');
+    Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class)->only(['index', 'show', 'destroy'])->names('admin.messages');
     
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('admin.settings.edit');
     Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('admin.settings.update');

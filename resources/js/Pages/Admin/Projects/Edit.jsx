@@ -2,8 +2,10 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, Link } from "@inertiajs/react";
 import Button from "@/Components/Button";
 import ImageUploader from "@/Components/ImageUploader";
-import { ArrowLeft, X } from "lucide-react";
+import MultiImageUploader from "@/Components/MultiImageUploader";
+import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Edit({ project }) {
     const { data, setData, put, post, processing, errors } = useForm({
@@ -14,6 +16,7 @@ export default function Edit({ project }) {
         description: project.description || "",
         long_description: project.long_description || "",
         thumbnail: project.thumbnail, // Initialize with existing thumbnail
+        gallery_image: project.gallery_image || null,
         images: project.images || [],
         technologies: project.technologies || [],
         features: project.features || [],
@@ -29,6 +32,59 @@ export default function Edit({ project }) {
     const [techInput, setTechInput] = useState("");
     const [featureInput, setFeatureInput] = useState("");
     const [achievementInput, setAchievementInput] = useState("");
+
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [generationImages, setGenerationImages] = useState([]);
+
+    const handleGenerate = async () => {
+        if (!data.title) {
+            alert("Please enter a project title first.");
+            return;
+        }
+
+        setIsGenerating(true);
+        const formData = new FormData();
+        formData.append("title", data.title);
+        generationImages.forEach((image) => {
+            formData.append("images[]", image);
+        });
+
+        try {
+            const response = await axios.post(
+                route("admin.projects.generate"),
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            const generatedData = response.data.data;
+
+            setData((prevData) => ({
+                ...prevData,
+                subtitle: generatedData.subtitle || prevData.subtitle,
+                description: generatedData.description || prevData.description,
+                long_description:
+                    generatedData.long_description || prevData.long_description,
+                category: generatedData.category || prevData.category,
+                role: generatedData.role || prevData.role,
+                team_size: generatedData.team_size || prevData.team_size,
+                technologies:
+                    generatedData.technologies || prevData.technologies,
+                features: generatedData.features || prevData.features,
+            }));
+
+            // Clear generation images after success
+            setGenerationImages([]);
+        } catch (error) {
+            console.error("Generation failed:", error);
+            alert("Failed to generate project details. Please try again.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -102,6 +158,69 @@ export default function Edit({ project }) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8 max-w-8xl">
+                {/* AI Generation Section */}
+                <div className="bg-surface-base border border-border-subtle rounded-lg p-6 space-y-6">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+                            <Wand2 className="w-5 h-5 text-accent-primary" />
+                            AI Generation
+                        </h2>
+                    </div>
+                    <div className="bg-surface-elevated p-4 rounded-lg border border-border-subtle">
+                        <p className="text-sm text-text-secondary mb-4">
+                            Enter a title below, upload screenshots here, and
+                            let AI generate the project details for you.
+                        </p>
+                        <div className="flex flex-col md:flex-row gap-4 items-start">
+                            <div className="flex-1 w-full">
+                                <label className="block text-sm font-medium text-text-secondary mb-1">
+                                    Screenshots for Context (Optional)
+                                </label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={(e) =>
+                                        setGenerationImages(
+                                            Array.from(e.target.files)
+                                        )
+                                    }
+                                    className="block w-full text-sm text-text-secondary
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-full file:border-0
+                                    file:text-sm file:font-semibold
+                                    file:bg-accent-primary/10 file:text-accent-primary
+                                    hover:file:bg-accent-primary/20"
+                                />
+                                {generationImages.length > 0 && (
+                                    <p className="text-xs text-text-secondary mt-1">
+                                        {generationImages.length} images
+                                        selected
+                                    </p>
+                                )}
+                            </div>
+                            <Button
+                                type="button"
+                                onClick={handleGenerate}
+                                disabled={isGenerating || !data.title}
+                                className="whitespace-nowrap"
+                            >
+                                {isGenerating ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                        Generating...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Wand2 className="w-4 h-4 mr-2" />
+                                        Generate Details
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Basic Info */}
                 <div className="bg-surface-base border border-border-subtle rounded-lg p-6 space-y-6">
                     <h2 className="text-lg font-semibold text-text-primary">
@@ -199,12 +318,31 @@ export default function Edit({ project }) {
                         ></textarea>
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <ImageUploader
+                                label="Thumbnail"
+                                image={data.thumbnail}
+                                onChange={(file) => setData("thumbnail", file)}
+                                error={errors.thumbnail}
+                            />
+                        </div>
+                        <div>
+                            <ImageUploader
+                                label="Gallery Cover Image"
+                                image={data.gallery_image}
+                                onChange={(file) => setData("gallery_image", file)}
+                                error={errors.gallery_image}
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <ImageUploader
-                            label="Thumbnail"
-                            image={data.thumbnail}
-                            onChange={(file) => setData("thumbnail", file)}
-                            error={errors.thumbnail}
+                        <MultiImageUploader
+                            label="Project Gallery Images"
+                            images={data.images}
+                            onChange={(files) => setData("images", files)}
+                            error={errors.images}
                         />
                     </div>
 

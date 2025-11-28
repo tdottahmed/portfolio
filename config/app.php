@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'services' => [
+        'gemini' => [
+            'key' => env('GEMINI_API_KEY')
+        ]
+    ],
+
 ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Education;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -100,6 +101,35 @@ class EducationController extends Controller
     public function destroy(Education $education)
     {
         $education->delete();
-        return redirect()->route('admin.education.index')->with('success', 'Education deleted successfully.');
+
+        return redirect()->route('admin.education.index')
+            ->with('success', 'Education deleted successfully.');
+    }
+
+    public function generate(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'institution' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'field' => 'required|string|max:255',
+        ]);
+
+        try {
+            $data = $geminiService->generateEducationDetails(
+                $request->input('institution'),
+                $request->input('degree'),
+                $request->input('field')
+            );
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

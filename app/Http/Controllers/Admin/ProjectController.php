@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 
 use App\Traits\FileUploadTrait;
+use App\Services\GeminiService;
 
 class ProjectController extends Controller
 {
@@ -45,6 +46,7 @@ class ProjectController extends Controller
             'description' => 'nullable|string',
             'long_description' => 'nullable|string',
             'thumbnail' => 'nullable|image|max:2048',
+            'gallery_image' => 'nullable|image|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|max:2048',
             'technologies' => 'nullable|array',
@@ -63,6 +65,9 @@ class ProjectController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $this->uploadFile($request->file('thumbnail'), 'projects/thumbnails');
+        }
+        if ($request->hasFile('gallery_image')) {
+            $validated['gallery_image'] = $this->uploadFile($request->file('gallery_image'), 'projects/gallery_images');
         }
         if ($request->hasFile('images')) {
             $uploadedImages = [];
@@ -100,13 +105,6 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        // Note: For file uploads with Inertia using PUT/PATCH, we often need to use POST with _method="PUT"
-        // or handle it carefully. Inertia's useForm handles this if we don't force PUT.
-        // However, standard HTML forms don't support PUT for file uploads.
-        // Best practice with Inertia is to use POST with _method: 'put' in the data, or just POST to a specific update-with-files route.
-        // But Laravel resource route expects PUT/PATCH.
-        // Let's assume the frontend sends POST with _method: 'put'.
-
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
@@ -114,7 +112,8 @@ class ProjectController extends Controller
             'description' => 'nullable|string',
             'long_description' => 'nullable|string',
             'thumbnail' => 'nullable', // Could be string (old URL) or file (new upload)
-            'images' => 'nullable|array',
+            'gallery_image' => 'nullable', // File or string
+            'images' => 'nullable|array', // Array of files or strings
             'technologies' => 'nullable|array',
             'features' => 'nullable|array',
             'achievements' => 'nullable|array',
@@ -144,6 +143,51 @@ class ProjectController extends Controller
             unset($validated['thumbnail']);
         }
 
+        // Handle Gallery Image
+        if ($request->hasFile('gallery_image')) {
+            $validated['gallery_image'] = $this->uploadFile($request->file('gallery_image'), 'projects/gallery_images', $project->gallery_image);
+        } elseif ($request->input('gallery_image') === null || $request->input('gallery_image') === 'null') {
+             if ($project->gallery_image) {
+                $this->deleteFile($project->gallery_image);
+            }
+            $validated['gallery_image'] = null;
+        } else {
+            unset($validated['gallery_image']);
+        }
+
+        // Handle Gallery Images
+        // The 'images' field can contain a mix of strings (existing URLs) and UploadedFile objects (new uploads).
+        // We need to:
+        // 1. Identify kept existing images.
+        // 2. Identify removed existing images and delete them from storage.
+        // 3. Upload new images.
+        // 4. Merge kept existing images and new uploaded images.
+
+        $currentImages = $project->images ?? [];
+        $newImagesList = $request->input('images', []); // This will contain strings (kept images)
+        if (!is_array($newImagesList)) $newImagesList = [];
+        
+        // Filter out non-string values from input (files are not in input() usually, but let's be safe)
+        $keptImages = array_filter($newImagesList, function($item) {
+            return is_string($item);
+        });
+
+        // Find images to delete (present in current but not in kept)
+        $imagesToDelete = array_diff($currentImages, $keptImages);
+        foreach ($imagesToDelete as $imageToDelete) {
+            $this->deleteFile($imageToDelete);
+        }
+
+        // Handle new file uploads
+        $finalImages = array_values($keptImages); // Reset keys
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $finalImages[] = $this->uploadFile($image, 'projects/gallery');
+            }
+        }
+
+        $validated['images'] = $finalImages;
+
         $project->update($validated);
 
         return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
@@ -161,5 +205,52 @@ class ProjectController extends Controller
 
         $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
+    }
+
+    public function generate(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'images' => 'nullable|array',
+            'images.*' => 'image|max:10240', // 10MB max per image
+        ]);
+
+        try {
+            $data = $geminiService->generateProjectDetails(
+                $request->input('title'),
+                $request->file('images') ?? []
+            );
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function generateImage(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'prompt' => 'required|string|max:1000',
+        ]);
+
+        try {
+            $base64Image = $geminiService->generateImage($request->input('prompt'));
+
+            return response()->json([
+                'success' => true,
+                'image' => 'data:image/png;base64,' . $base64Image
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

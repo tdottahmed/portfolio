@@ -2,7 +2,9 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm, Link } from '@inertiajs/react';
 import Button from '@/Components/Button';
 import { ArrowLeft, X } from 'lucide-react';
+import { ArrowLeft, X, Wand2, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -13,6 +15,34 @@ export default function Create() {
     });
 
     const [featureInput, setFeatureInput] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleGenerate = async () => {
+        if (!data.title) {
+            alert("Please enter a Title first.");
+            return;
+        }
+
+        setIsGenerating(true);
+        try {
+            const response = await axios.post(route("admin.services.generate"), {
+                title: data.title
+            });
+
+            const generatedData = response.data.data;
+            setData(prev => ({
+                ...prev,
+                description: generatedData.description || prev.description,
+                features: generatedData.features || prev.features,
+                icon: generatedData.icon || prev.icon,
+            }));
+        } catch (error) {
+            console.error("Generation failed:", error);
+            alert("Failed to generate details. Please try again.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,12 +64,32 @@ export default function Create() {
         <AdminLayout>
             <Head title="Create Service" />
 
-            <div className="mb-6">
-                <Link href={route('admin.services.index')} className="flex items-center text-text-secondary hover:text-text-primary mb-4">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Services
-                </Link>
-                <h1 className="text-2xl font-bold text-text-primary">Create New Service</h1>
+            <div className="mb-6 flex justify-between items-end">
+                <div>
+                    <Link href={route('admin.services.index')} className="flex items-center text-text-secondary hover:text-text-primary mb-4">
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back to Services
+                    </Link>
+                    <h1 className="text-2xl font-bold text-text-primary">Add New Service</h1>
+                </div>
+                <Button
+                    type="button"
+                    onClick={handleGenerate}
+                    disabled={isGenerating || !data.title}
+                    className="whitespace-nowrap"
+                >
+                    {isGenerating ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Generating...
+                        </>
+                    ) : (
+                        <>
+                            <Wand2 className="w-4 h-4 mr-2" />
+                            Generate with AI
+                        </>
+                    )}
+                </Button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -86,6 +87,31 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         $service->delete();
-        return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully.');
+
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Service deleted successfully.');
+    }
+
+    public function generate(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        try {
+            $data = $geminiService->generateServiceDetails(
+                $request->input('title')
+            );
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

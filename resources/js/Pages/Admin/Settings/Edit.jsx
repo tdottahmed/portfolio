@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export default function Edit({ settings }) {
     const { data, setData, post, processing, errors } = useForm({
+        _method: 'PUT',
         hero: settings.hero || {
             title: '',
             subtitle: '',
@@ -43,7 +44,6 @@ export default function Edit({ settings }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('admin.settings.update'), {
-            _method: 'put',
             forceFormData: true,
         });
     };

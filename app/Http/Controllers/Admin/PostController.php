@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -103,6 +104,11 @@ class PostController extends Controller
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $this->uploadFile($request->file('featured_image'), 'posts', $post->featured_image);
+        } elseif ($request->input('featured_image') === null || $request->input('featured_image') === 'null') {
+            if ($post->featured_image) {
+                $this->deleteFile($post->featured_image);
+            }
+            $validated['featured_image'] = null;
         } else {
             unset($validated['featured_image']);
         }
@@ -118,9 +124,35 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if ($post->featured_image) {
-            $this->deleteFile($post->featured_image);
+            Storage::disk('public')->delete($post->featured_image);
         }
+        
         $post->delete();
-        return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully.');
+
+        return redirect()->route('admin.posts.index')
+            ->with('success', 'Post deleted successfully.');
+    }
+
+    public function generate(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        try {
+            $data = $geminiService->generatePostDetails(
+                $request->input('title')
+            );
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

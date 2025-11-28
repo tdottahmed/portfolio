@@ -28,7 +28,7 @@ class SettingController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->all();
+        $data = $request->except(['_method']);
 
         foreach ($data as $key => $payload) {
             // If payload is an array (like 'hero', 'about'), we need to check for files inside

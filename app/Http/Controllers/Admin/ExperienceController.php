@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Experience;
+use App\Services\GeminiService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -100,6 +101,33 @@ class ExperienceController extends Controller
     public function destroy(Experience $experience)
     {
         $experience->delete();
-        return redirect()->route('admin.experiences.index')->with('success', 'Experience deleted successfully.');
+
+        return redirect()->route('admin.experiences.index')
+            ->with('success', 'Experience deleted successfully.');
+    }
+
+    public function generate(Request $request, GeminiService $geminiService)
+    {
+        $request->validate([
+            'company' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+        ]);
+
+        try {
+            $data = $geminiService->generateExperienceDetails(
+                $request->input('company'),
+                $request->input('position')
+            );
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
