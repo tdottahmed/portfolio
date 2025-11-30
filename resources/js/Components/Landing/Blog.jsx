@@ -135,7 +135,13 @@ export default function Blog({ posts }) {
                             {/* Image Container */}
                             <Link href={route('posts.show', post.slug)} className="relative overflow-hidden aspect-[16/10] bg-surface-elevated block">
                                 <motion.img
-                                    src={post.image || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"}
+                                    src={
+                                        post.featured_image
+                                            ? post.featured_image.startsWith("http")
+                                                ? post.featured_image
+                                                : `/storage/${post.featured_image}`
+                                            : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
+                                    }
                                     alt={post.title}
                                     className="w-full h-full object-cover"
                                     whileHover={{ scale: 1.1 }}

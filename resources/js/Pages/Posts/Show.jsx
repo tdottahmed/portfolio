@@ -2,6 +2,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Clock, Tag, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 export default function Show({ post }) {
     let postTags = [];
@@ -71,8 +72,11 @@ export default function Show({ post }) {
                     >
                         <img
                             src={
-                                post.image ||
-                                "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop"
+                                post.featured_image
+                                    ? post.featured_image.startsWith("http")
+                                        ? post.featured_image
+                                        : `/storage/${post.featured_image}`
+                                    : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop"
                             }
                             alt={post.title}
                             className="w-full h-full object-cover"
@@ -81,9 +85,9 @@ export default function Show({ post }) {
 
                     {/* Content */}
                     <div className="prose prose-invert prose-lg max-w-none mx-auto">
-                        <div
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                        />
+                        <ReactMarkdown className="prose prose-invert prose-lg max-w-none mx-auto">
+                            {post.content}
+                        </ReactMarkdown>
                     </div>
 
                     {/* Tags */}
