@@ -35,6 +35,7 @@ export default function AdminLayout({ children }) {
         { name: 'Blog Posts', href: route('admin.posts.index'), active: 'admin.posts.*', icon: FileText },
         { name: 'Messages', href: route('admin.messages.index'), active: 'admin.messages.*', icon: MessageSquare },
         { name: 'Settings', href: route('admin.settings.edit'), active: 'admin.settings.*', icon: Settings },
+        { name: 'Browse Frontend', href: route('home'), active: 'home', icon: Layers },
     ];
 
     return (

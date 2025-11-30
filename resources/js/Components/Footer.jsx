@@ -180,9 +180,17 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-text-tertiary text-sm text-center md:text-left">
-                        &copy; {currentYear} Tanbir Ahmed. All rights reserved.
-                    </p>
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <p className="text-text-tertiary text-sm text-center md:text-left">
+                            &copy; {currentYear} Tanbir Ahmed. All rights reserved.
+                        </p>
+                        <Link
+                            href={route("login")}
+                            className="text-text-tertiary text-sm hover:text-accent-primary transition-colors"
+                        >
+                            Admin Login
+                        </Link>
+                    </div>
                     <p className="text-text-tertiary text-sm flex items-center gap-1">
                         Made with{" "}
                         <Heart className="w-4 h-4 text-red-500 fill-red-500 animate-pulse" />{" "}

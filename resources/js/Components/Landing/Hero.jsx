@@ -143,20 +143,14 @@ export default function Hero({ settings }) {
                             className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-8 w-full sm:w-auto"
                         >
                             <a
-                                href="#projects"
+                                href="https://drive.google.com/file/d/1Kub5WjDQXtxbJT4TS5tkYPoX7vL_pcXa/view?usp=sharing"
+                                target="_blank"
                                 className="group relative w-full sm:w-auto px-8 py-4 bg-accent-primary text-white rounded-full hover:bg-accent-primary/90 transition-all duration-300 shadow-xl shadow-accent-primary/30 hover:shadow-2xl hover:shadow-accent-primary/50 flex items-center justify-center gap-2 font-bold text-base sm:text-lg overflow-hidden"
                             >
                                 <span className="relative z-10">
-                                    View My Work
+                                    View Resume
                                 </span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-                            </a>
-                            <a
-                                href="#contact"
-                                className="w-full sm:w-auto px-8 py-4 bg-surface-elevated/60 backdrop-blur-md border-2 border-border-subtle text-text-primary rounded-full hover:bg-surface-elevated hover:border-accent-primary/50 transition-all duration-300 font-bold text-base sm:text-lg flex items-center justify-center gap-2 shadow-lg"
-                            >
-                                <Mail className="w-5 h-5" />
-                                Contact Me
                             </a>
                         </motion.div>
 
