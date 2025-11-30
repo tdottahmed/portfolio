@@ -90,7 +90,7 @@ export default function Index({ posts }) {
                                 >
                                     <motion.img
                                         src={
-                                            post.image ||
+                                            post.featured_image ||
                                             "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
                                         }
                                         alt={post.title}

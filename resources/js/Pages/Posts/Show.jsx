@@ -75,7 +75,7 @@ export default function Show({ post }) {
                                 post.featured_image
                                     ? post.featured_image.startsWith("http")
                                         ? post.featured_image
-                                        : `/storage/${post.featured_image}`
+                                        : `${post.featured_image}`
                                     : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop"
                             }
                             alt={post.title}
@@ -85,7 +85,7 @@ export default function Show({ post }) {
 
                     {/* Content */}
                     <div className="prose prose-invert prose-lg max-w-none mx-auto">
-                        <ReactMarkdown className="prose prose-invert prose-lg max-w-none mx-auto">
+                        <ReactMarkdown>
                             {post.content}
                         </ReactMarkdown>
                     </div>
