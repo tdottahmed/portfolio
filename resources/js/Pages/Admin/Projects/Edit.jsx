@@ -6,6 +6,7 @@ import MultiImageUploader from "@/Components/MultiImageUploader";
 import { ArrowLeft, X, Wand2, Loader2 } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
+import DatePicker from "@/Components/DatePicker";
 
 export default function Edit({ project }) {
     const { data, setData, put, post, processing, errors } = useForm({
@@ -331,7 +332,9 @@ export default function Edit({ project }) {
                             <ImageUploader
                                 label="Gallery Cover Image"
                                 image={data.gallery_image}
-                                onChange={(file) => setData("gallery_image", file)}
+                                onChange={(file) =>
+                                    setData("gallery_image", file)
+                                }
                                 error={errors.gallery_image}
                             />
                         </div>
@@ -606,7 +609,9 @@ export default function Edit({ project }) {
                                 onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        start: date ? date.toISOString().split('T')[0] : "",
+                                        start: date
+                                            ? date.toISOString().split("T")[0]
+                                            : "",
                                     })
                                 }
                                 placeholder="Select start date"
@@ -619,7 +624,9 @@ export default function Edit({ project }) {
                                 onChange={(date) =>
                                     setData("timeline", {
                                         ...data.timeline,
-                                        end: date ? date.toISOString().split('T')[0] : "",
+                                        end: date
+                                            ? date.toISOString().split("T")[0]
+                                            : "",
                                     })
                                 }
                                 placeholder="Select end date"

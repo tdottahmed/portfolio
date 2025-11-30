@@ -1,8 +1,8 @@
-import DatePicker from "react-datepicker";
+import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "lucide-react";
 
-export default function CustomDatePicker({
+export default function DatePicker({
     selected,
     onChange,
     label,
@@ -19,7 +19,7 @@ export default function CustomDatePicker({
                 </label>
             )}
             <div className="relative">
-                <DatePicker
+                <ReactDatePicker
                     selected={selected ? new Date(selected) : null}
                     onChange={onChange}
                     placeholderText={placeholder}
@@ -39,8 +39,10 @@ export default function CustomDatePicker({
                 />
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary pointer-events-none" />
             </div>
-            {error && <p className="text-semantic-error text-sm mt-1">{error}</p>}
-            
+            {error && (
+                <p className="text-semantic-error text-sm mt-1">{error}</p>
+            )}
+
             {/* Custom Styles for Dark Mode Integration */}
             <style>{`
                 .react-datepicker {
