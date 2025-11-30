@@ -139,7 +139,7 @@ export default function Blog({ posts }) {
                                         post.featured_image
                                             ? post.featured_image.startsWith("http")
                                                 ? post.featured_image
-                                                : `/storage/${post.featured_image}`
+                                                : `${post.featured_image}`
                                             : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
                                     }
                                     alt={post.title}
