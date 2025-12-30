@@ -1,7 +1,9 @@
-import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
+import { useScrollAnimation } from "@/Hooks/useScrollAnimation";
 
 export default function Services({ services }) {
+    const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+
     if (!services || services.length === 0) return null;
 
     const IconComponent = ({ name }) => {
@@ -10,9 +12,9 @@ export default function Services({ services }) {
     };
 
     return (
-        <section id="services" className="py-20">
+        <section id="services" className="py-20" ref={sectionRef}>
             <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-16">
+                <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
                         My Services
                     </h2>
@@ -25,15 +27,12 @@ export default function Services({ services }) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
-                        <motion.div
+                        <div
                             key={service.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle hover:border-accent-primary/30 transition-colors group"
+                            className={`bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle hover:border-accent-primary/30 transition-all duration-700 group hover:-translate-y-2 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                            style={{ transitionDelay: `${index * 150}ms` }}
                         >
-                            <div className="w-14 h-14 bg-accent-primary/10 rounded-lg flex items-center justify-center text-accent-primary mb-6 group-hover:bg-accent-primary group-hover:text-white transition-colors">
+                            <div className="w-14 h-14 bg-accent-primary/10 rounded-lg flex items-center justify-center text-accent-primary mb-6 group-hover:bg-accent-primary group-hover:text-white transition-colors duration-300">
                                 <IconComponent name={service.icon} />
                             </div>
                             <h3 className="text-xl font-bold text-text-primary mb-4">
@@ -70,7 +69,7 @@ export default function Services({ services }) {
                                     )
                                 );
                             })()}
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

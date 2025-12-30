@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
 export default function Testimonials({ testimonials }) {
@@ -16,12 +15,8 @@ export default function Testimonials({ testimonials }) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
-                        <motion.div
+                        <div
                             key={testimonial.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle relative"
                         >
                             <Quote className="absolute top-6 right-6 w-8 h-8 text-accent-primary/20" />
@@ -62,7 +57,7 @@ export default function Testimonials({ testimonials }) {
                             <p className="text-text-secondary text-sm italic">
                                 "{testimonial.text}"
                             </p>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

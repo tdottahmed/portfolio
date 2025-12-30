@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useForm } from '@inertiajs/react';
 
@@ -30,12 +29,7 @@ export default function Contact({ settings }) {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
+                    <div>
                         <h3 className="text-2xl font-bold text-text-primary mb-6">Contact Information</h3>
                         <div className="space-y-6">
                             <div className="flex items-start space-x-4">
@@ -74,15 +68,9 @@ export default function Contact({ settings }) {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                        className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle"
-                    >
+                    <div className="bg-surface-base/80 backdrop-blur-md p-8 rounded-xl shadow-lg border border-border-subtle">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-1">Name</label>
@@ -135,7 +123,7 @@ export default function Contact({ settings }) {
                                 <Send className="w-4 h-4 ml-2" />
                             </button>
                         </form>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

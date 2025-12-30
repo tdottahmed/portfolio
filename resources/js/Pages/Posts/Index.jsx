@@ -1,31 +1,8 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link } from "@inertiajs/react";
-import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Clock, Tag, BookOpen } from "lucide-react";
 
 export default function Index({ posts }) {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut",
-            },
-        },
-    };
-
     return (
         <MainLayout>
             <Head title="Blog" />
@@ -40,23 +17,17 @@ export default function Index({ posts }) {
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                     {/* Page Header */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
                         className="text-center mb-16 sm:mb-24"
                     >
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.2 }}
+                        <div
                             className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-6"
                         >
                             <BookOpen className="w-4 h-4 text-accent-primary" />
                             <span className="text-accent-primary font-bold tracking-wider uppercase text-xs">
                                 Blog
                             </span>
-                        </motion.div>
+                        </div>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight">
                             Latest{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
@@ -67,36 +38,29 @@ export default function Index({ posts }) {
                             Insights, tutorials, and thoughts on web
                             development, design, and technology.
                         </p>
-                    </motion.div>
+                    </div>
 
                     {/* Posts Grid */}
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
+                    <div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
                         {posts.map((post, index) => (
-                            <motion.div
+                            <div
                                 key={post.id}
-                                variants={cardVariants}
-                                whileHover={{ y: -8 }}
-                                className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col h-full"
+                                className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full"
                             >
                                 {/* Image Container */}
                                 <Link
                                     href={route("posts.show", post.slug)}
                                     className="relative overflow-hidden aspect-[16/10] bg-surface-elevated block"
                                 >
-                                    <motion.img
+                                    <img
                                         src={
                                             post.featured_image ||
                                             "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
                                         }
                                         alt={post.title}
-                                        className="w-full h-full object-cover"
-                                        whileHover={{ scale: 1.1 }}
-                                        transition={{ duration: 0.5 }}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
 
                                     {/* Gradient Overlay */}
@@ -164,9 +128,9 @@ export default function Index({ posts }) {
                                         <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </section>
         </MainLayout>

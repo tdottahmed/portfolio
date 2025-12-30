@@ -1,7 +1,9 @@
-import { motion } from "framer-motion";
 import { Code, Database, Palette, Zap, CheckCircle2 } from "lucide-react";
+import { useScrollAnimation } from "@/Hooks/useScrollAnimation";
 
 export default function Skills({ skills }) {
+    const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+
     // Icon mapping for skill categories
     const categoryIcons = {
         Frontend: Palette,
@@ -81,30 +83,8 @@ export default function Skills({ skills }) {
                   ],
               };
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.5,
-                ease: "easeOut",
-            },
-        },
-    };
-
     return (
-        <section className="relative py-16 sm:py-20 lg:py-24  overflow-hidden">
+        <section className="relative py-16 sm:py-20 lg:py-24  overflow-hidden" ref={sectionRef}>
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-accent-secondary/10 rounded-full blur-3xl" />
@@ -114,62 +94,32 @@ export default function Skills({ skills }) {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 sm:mb-16"
-                >
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-4"
-                    >
+                <div className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-4">
                         <Code className="w-4 h-4 text-accent-primary" />
                         <span className="text-accent-primary font-semibold tracking-wider uppercase text-xs sm:text-sm">
                             Expertise
                         </span>
-                    </motion.div>
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-4"
-                    >
+                    </div>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-4">
                         Technical Skills
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto"
-                    >
+                    </h2>
+                    <p className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto">
                         Technologies and tools I use to bring ideas to life
-                    </motion.p>
-                </motion.div>
+                    </p>
+                </div>
 
                 {/* Skills Grid - Mobile First */}
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {Object.entries(displaySkills).map(
                         ([category, items], categoryIndex) => {
                             const IconComponent =
                                 categoryIcons[category] || Code;
                             return (
-                                <motion.div
+                                <div
                                     key={category}
-                                    variants={cardVariants}
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    className="group bg-surface-base/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden"
+                                    className={`group bg-surface-base/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-border-subtle hover:border-accent-primary/50 transition-all duration-700 shadow-lg hover:shadow-xl relative overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                    style={{ transitionDelay: `${categoryIndex * 150}ms` }}
                                 >
                                     {/* Gradient Background on Hover */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/0 to-accent-tertiary/0 group-hover:from-accent-primary/5 group-hover:to-accent-tertiary/5 transition-all duration-300 rounded-2xl sm:rounded-3xl" />
@@ -188,23 +138,8 @@ export default function Skills({ skills }) {
                                         {/* Skills List */}
                                         <div className="space-y-4">
                                             {items.map((skill, index) => (
-                                                <motion.div
+                                                <div
                                                     key={skill.id}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        x: -20,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        x: 0,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        delay:
-                                                            categoryIndex *
-                                                                0.1 +
-                                                            index * 0.05,
-                                                    }}
                                                     className="group/item"
                                                 >
                                                     <div className="flex items-center justify-between mb-2">
@@ -226,47 +161,27 @@ export default function Skills({ skills }) {
                                                     </div>
                                                     {skill.level && (
                                                         <div className="relative h-1.5 sm:h-2 bg-surface-elevated rounded-full overflow-hidden">
-                                                            <motion.div
-                                                                initial={{
-                                                                    width: 0,
+                                                            <div
+                                                                className="absolute left-0 top-0 h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full transition-all duration-1000 ease-out"
+                                                                style={{
+                                                                    width: isVisible ? `${skill.level}%` : '0%',
+                                                                    transitionDelay: `${(categoryIndex * 150) + (index * 100) + 500}ms`
                                                                 }}
-                                                                whileInView={{
-                                                                    width: `${skill.level}%`,
-                                                                }}
-                                                                viewport={{
-                                                                    once: true,
-                                                                }}
-                                                                transition={{
-                                                                    duration: 1,
-                                                                    delay:
-                                                                        categoryIndex *
-                                                                            0.1 +
-                                                                        index *
-                                                                            0.05,
-                                                                    ease: "easeOut",
-                                                                }}
-                                                                className="absolute left-0 top-0 h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full"
                                                             />
                                                         </div>
                                                     )}
-                                                </motion.div>
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             );
                         }
                     )}
-                </motion.div>
+                </div>
 
                 {/* Additional Info Section - Mobile Friendly */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6"
-                >
+                <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     {[
                         {
                             label: "Projects Completed",
@@ -278,14 +193,10 @@ export default function Skills({ skills }) {
                     ].map((stat, index) => {
                         const IconComponent = stat.icon;
                         return (
-                            <motion.div
+                            <div
                                 key={stat.label}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.6 + index * 0.1 }}
-                                whileHover={{ scale: 1.05 }}
-                                className="bg-surface-elevated/50 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-border-subtle text-center"
+                                className={`bg-surface-elevated/50 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-border-subtle text-center hover:scale-105 transition-transform duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                style={{ transitionDelay: `${(index + 3) * 150}ms` }}
                             >
                                 <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-accent-primary mx-auto mb-2 sm:mb-3" />
                                 <div className="text-2xl sm:text-3xl font-bold text-text-primary mb-1">
@@ -294,10 +205,10 @@ export default function Skills({ skills }) {
                                 <div className="text-xs sm:text-sm text-text-secondary">
                                     {stat.label}
                                 </div>
-                            </motion.div>
+                            </div>
                         );
                     })}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

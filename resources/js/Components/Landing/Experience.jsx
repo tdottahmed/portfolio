@@ -1,11 +1,8 @@
-import { motion } from "framer-motion";
 import {
     Briefcase,
     Calendar,
     MapPin,
-    CheckCircle2,
     Trophy,
-    ArrowRight,
 } from "lucide-react";
 import { formatDate } from "@/Utils/date";
 
@@ -73,13 +70,7 @@ export default function Experience({ experiences }) {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-16"
-                >
+                <div className="mb-16">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="p-2 bg-accent-primary/10 rounded-lg">
                             <Briefcase className="w-6 h-6 text-accent-primary" />
@@ -92,17 +83,13 @@ export default function Experience({ experiences }) {
                         My professional journey, key roles, and the impact I've
                         made along the way.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Vertical Timeline */}
                 <div className="relative border-l-2 border-border-subtle ml-3 sm:ml-6 space-y-12 sm:space-y-16">
                     {displayExperiences.map((exp, index) => (
-                        <motion.div
+                        <div
                             key={exp.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="relative pl-8 sm:pl-12"
                         >
                             {/* Timeline Dot */}
@@ -162,7 +149,7 @@ export default function Experience({ experiences }) {
                                         </ul>
                                     </div>
                                 )}
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

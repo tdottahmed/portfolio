@@ -1,9 +1,11 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, Tag, BookOpen, Sparkles } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Tag, BookOpen } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { formatDate } from "@/Utils/date";
+import { useScrollAnimation } from "@/Hooks/useScrollAnimation";
 
 export default function Blog({ posts }) {
+    const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+
     // Dummy data fallback with placeholder images
     const displayPosts = posts && posts.length > 0 ? posts : [
         {
@@ -38,30 +40,8 @@ export default function Blog({ posts }) {
         },
     ];
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut",
-            },
-        },
-    };
-
     return (
-        <section id="blog" className="relative py-16 sm:py-20 lg:py-24 overflow-hidden">
+        <section id="blog" className="relative py-16 sm:py-20 lg:py-24 overflow-hidden" ref={sectionRef}>
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-tertiary/10 rounded-full blur-3xl" />
@@ -71,70 +51,40 @@ export default function Blog({ posts }) {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0 mb-12 sm:mb-16"
-                >
+                <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0 mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <div className="text-center sm:text-left w-full sm:w-auto">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-4"
-                        >
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-4">
                             <BookOpen className="w-4 h-4 text-accent-primary" />
                             <span className="text-accent-primary font-semibold tracking-wider uppercase text-xs sm:text-sm">
                                 From the Blog
                             </span>
-                        </motion.div>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4"
-                        >
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4">
                             Latest Articles
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                            className="text-text-secondary text-base sm:text-lg mt-4 max-w-2xl"
-                        >
+                        </h2>
+                        <p className="text-text-secondary text-base sm:text-lg mt-4 max-w-2xl">
                             Insights, tutorials, and thoughts on web development
-                        </motion.p>
+                        </p>
                     </div>
                     <Link
                         href={route('posts.index')}
-                        className="hidden sm:flex items-center px-6 py-3 rounded-full border border-border-subtle hover:border-accent-primary/50 bg-surface-elevated/50 backdrop-blur-sm hover:bg-surface-elevated transition-all duration-300 font-medium text-text-primary group"
+                        className="hidden sm:flex items-center px-6 py-3 rounded-full border border-border-subtle hover:border-accent-primary/50 bg-surface-elevated/50 backdrop-blur-sm hover:bg-surface-elevated transition-colors font-medium text-text-primary group hover:-translate-y-1 active:scale-95"
                     >
                         Read All Articles <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
-                </motion.div>
+                </div>
 
                 {/* Blog Posts Grid - Mobile First */}
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {displayPosts.map((post, index) => (
-                        <motion.div
+                        <div
                             key={post.id}
-                            variants={cardVariants}
-                            whileHover={{ y: -8 }}
-                            className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col h-full"
+                            className={`group bg-surface-base/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-700 hover:shadow-xl flex flex-col h-full hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                            style={{ transitionDelay: `${index * 150}ms` }}
                         >
                             {/* Image Container */}
                             <Link href={route('posts.show', post.slug)} className="relative overflow-hidden aspect-[16/10] bg-surface-elevated block">
-                                <motion.img
+                                <img
                                     src={
                                         post.featured_image
                                             ? post.featured_image.startsWith("http")
@@ -143,9 +93,7 @@ export default function Blog({ posts }) {
                                             : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop"
                                     }
                                     alt={post.title}
-                                    className="w-full h-full object-cover"
-                                    whileHover={{ scale: 1.1 }}
-                                    transition={{ duration: 0.5 }}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
                                 
                                 {/* Gradient Overlay */}
@@ -153,13 +101,10 @@ export default function Blog({ posts }) {
                                 
                                 {/* Category Badge */}
                                 <div className="absolute top-4 left-4">
-                                    <motion.span
-                                        whileHover={{ scale: 1.05 }}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-base/90 backdrop-blur-md text-text-primary text-xs font-bold rounded-full uppercase tracking-wider border border-border-subtle shadow-sm"
-                                    >
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-base/90 backdrop-blur-md text-text-primary text-xs font-bold rounded-full uppercase tracking-wider border border-border-subtle shadow-sm group-hover:scale-105 transition-transform">
                                         <Tag className="w-3 h-3" />
                                         {post.category}
-                                    </motion.span>
+                                    </span>
                                 </div>
 
                                 {/* Read Time - Bottom Right */}
@@ -210,25 +155,19 @@ export default function Blog({ posts }) {
                                     <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                                 </Link>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Mobile View All Button */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-12 text-center sm:hidden"
-                >
+                <div className={`mt-12 text-center sm:hidden transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                     <Link
                         href={route('posts.index')}
-                        className="inline-flex items-center px-8 py-4 bg-accent-primary text-white rounded-full hover:bg-accent-primary/90 transition-all duration-300 font-semibold shadow-lg shadow-accent-primary/25 hover:shadow-xl hover:shadow-accent-primary/40"
+                        className="inline-flex items-center px-8 py-4 bg-accent-primary text-white rounded-full hover:bg-accent-primary/90 transition-all duration-300 font-semibold shadow-lg shadow-accent-primary/25 hover:shadow-xl hover:shadow-accent-primary/40 active:scale-95"
                     >
                         Read All Articles <ArrowRight className="w-5 h-5 ml-2" />
                     </Link>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

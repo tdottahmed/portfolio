@@ -1,31 +1,8 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
 import { ExternalLink, Github, Folder, ArrowRight } from 'lucide-react';
 
 export default function Index({ projects }) {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut",
-            },
-        },
-    };
-
     return (
         <MainLayout>
             <Head title="Projects" />
@@ -40,36 +17,27 @@ export default function Index({ projects }) {
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                     {/* Page Header */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
                         className="text-center mb-16 sm:mb-24"
                     >
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.2 }}
+                        <div
                             className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-6"
                         >
                             <Folder className="w-4 h-4 text-accent-primary" />
                             <span className="text-accent-primary font-bold tracking-wider uppercase text-xs">
                                 Portfolio
                             </span>
-                        </motion.div>
+                        </div>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight">
                             All <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Projects</span>
                         </h1>
                         <p className="text-text-secondary text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
                             A complete collection of my work, side projects, and open source contributions.
                         </p>
-                    </motion.div>
+                    </div>
 
                     {/* Projects Grid */}
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
+                    <div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
                         {projects.map((project, index) => {
@@ -88,20 +56,16 @@ export default function Index({ projects }) {
                             }
 
                             return (
-                                <motion.div
+                                <div
                                     key={project.id}
-                                    variants={cardVariants}
-                                    whileHover={{ y: -8 }}
-                                    className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col h-full"
+                                    className="group bg-surface-base/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full"
                                 >
                                     {/* Image Container */}
                                     <div className="relative overflow-hidden aspect-[16/10] bg-surface-elevated">
-                                        <motion.img
+                                        <img
                                             src={project.thumbnail || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"}
                                             alt={project.title}
-                                            className="w-full h-full object-cover"
-                                            whileHover={{ scale: 1.1 }}
-                                            transition={{ duration: 0.5 }}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         
                                         {/* Gradient Overlay */}
@@ -110,30 +74,26 @@ export default function Index({ projects }) {
                                         {/* Hover Overlay with Actions */}
                                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 backdrop-blur-sm">
                                             {projectLinks.live && (
-                                                <motion.a
+                                                <a
                                                     href={projectLinks.live}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    className="p-3 bg-white rounded-full text-gray-900 hover:bg-accent-primary hover:text-white transition-colors"
+                                                    className="p-3 bg-white rounded-full text-gray-900 hover:bg-accent-primary hover:text-white transition-all hover:scale-110 hover:rotate-6"
                                                     title="View Live"
                                                 >
                                                     <ExternalLink className="w-5 h-5" />
-                                                </motion.a>
+                                                </a>
                                             )}
                                             {projectLinks.github && (
-                                                <motion.a
+                                                <a
                                                     href={projectLinks.github}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    whileHover={{ scale: 1.1, rotate: -5 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    className="p-3 bg-white rounded-full text-gray-900 hover:bg-accent-primary hover:text-white transition-colors"
+                                                    className="p-3 bg-white rounded-full text-gray-900 hover:bg-accent-primary hover:text-white transition-all hover:scale-110 hover:-rotate-6"
                                                     title="View Code"
                                                 >
                                                     <Github className="w-5 h-5" />
-                                                </motion.a>
+                                                </a>
                                             )}
                                         </div>
 
@@ -181,10 +141,10 @@ export default function Index({ projects }) {
                                             <ArrowRight className="w-4 h-4" />
                                         </Link>
                                     </div>
-                                </motion.div>
+                                </div>
                             );
                         })}
-                    </motion.div>
+                    </div>
                 </div>
             </section>
         </MainLayout>

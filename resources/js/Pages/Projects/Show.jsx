@@ -1,6 +1,5 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link } from "@inertiajs/react";
-import { motion } from "framer-motion";
 import {
     ExternalLink,
     Github,
@@ -101,10 +100,7 @@ export default function Show({ project }) {
 
                 {/* Hero Section */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
                         className="mb-12"
                     >
                         <div className="flex flex-wrap gap-4 mb-6">
@@ -147,13 +143,10 @@ export default function Show({ project }) {
                                 </a>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Main Image */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
+                    <div
                         className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-border-subtle mb-16 aspect-video bg-surface-elevated"
                     >
                         <img
@@ -164,7 +157,7 @@ export default function Show({ project }) {
                             alt={project.title}
                             className="w-full h-full object-cover"
                         />
-                    </motion.div>
+                    </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                         {/* Main Content */}

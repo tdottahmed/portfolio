@@ -1,6 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
 import { Home, Monitor, FileText, Mail, Menu, Briefcase, User } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function BottomNav({ onOpenMenu }) {
     const { url } = usePage();
@@ -41,10 +40,8 @@ export default function BottomNav({ onOpenMenu }) {
                             }`}>
                                 <item.icon className={`w-5 h-5 ${active ? "stroke-[2.5px]" : "stroke-2"}`} />
                                 {active && (
-                                    <motion.div
-                                        layoutId="bottomNavIndicator"
+                                    <div
                                         className="absolute inset-0 border-2 border-accent-primary/20 rounded-lg"
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                     />
                                 )}
                             </div>

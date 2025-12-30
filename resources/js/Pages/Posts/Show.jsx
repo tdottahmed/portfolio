@@ -1,6 +1,5 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link } from "@inertiajs/react";
-import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Clock, Tag, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
@@ -28,10 +27,7 @@ export default function Show({ post }) {
                 </div>
                 {/* Hero Section */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
                         className="mb-12 text-center"
                     >
                         <div className="flex flex-wrap justify-center gap-4 mb-6">
@@ -61,13 +57,10 @@ export default function Show({ post }) {
                                 {post.read_time || "5 min read"}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Main Image */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
+                    <div
                         className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-border-subtle mb-12 aspect-[16/9] bg-surface-elevated"
                     >
                         <img
@@ -81,7 +74,7 @@ export default function Show({ post }) {
                             alt={post.title}
                             className="w-full h-full object-cover"
                         />
-                    </motion.div>
+                    </div>
 
                     {/* Content */}
                     <div className="prose prose-invert prose-lg max-w-none mx-auto">
