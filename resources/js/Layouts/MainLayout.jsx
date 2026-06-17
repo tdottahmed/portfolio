@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import Background from "../Components/Background";
+import ThreeBackground from "../Components/ThreeBackground";
 import BottomNav from "../Components/BottomNav";
 import MobileMenu from "../Components/Header/MobileMenu";
 import { useTheme } from "../Hooks/useTheme";
@@ -22,8 +22,8 @@ export default function MainLayout({ children }) {
     ];
 
     return (
-        <div className="min-h-screen text-text-primary flex flex-col transition-colors duration-500 relative pb-20 md:pb-0">
-            <Background />
+        <div className="min-h-screen text-text-primary flex flex-col relative pb-20 md:pb-0">
+            <ThreeBackground />
             <Navbar />
             <main className="flex-grow pt-16 sm:pt-20 w-full relative z-10">{children}</main>
             <Footer />
