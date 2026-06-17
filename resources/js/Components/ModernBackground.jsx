@@ -14,8 +14,8 @@ export default function ModernBackground() {
     const isDark = theme === 'dark';
     
     // Modern elegant colors for particles
-    const particleColor = isDark ? "#818cf8" : "#94a3b8"; // indigo-400 for dark, slate-400 for light
-    const lineColor = isDark ? "#4f46e5" : "#cbd5e1"; // indigo-600 for dark, slate-300 for light
+    const particleColor = isDark ? "#818cf8" : "#4f46e5"; // indigo-400 for dark, indigo-600 for light
+    const lineColor = isDark ? "#4f46e5" : "#6366f1"; // indigo-600 for dark, indigo-500 for light
 
     const particlesOptions = useMemo(() => ({
         background: {
@@ -53,7 +53,7 @@ export default function ModernBackground() {
                 color: lineColor,
                 distance: 150,
                 enable: true,
-                opacity: isDark ? 0.15 : 0.3,
+                opacity: isDark ? 0.15 : 0.4,
                 width: 1,
             },
             move: {
@@ -75,7 +75,7 @@ export default function ModernBackground() {
                 value: 80,
             },
             opacity: {
-                value: isDark ? 0.3 : 0.5,
+                value: isDark ? 0.3 : 0.6,
             },
             shape: {
                 type: "circle",

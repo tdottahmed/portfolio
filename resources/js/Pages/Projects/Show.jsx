@@ -90,13 +90,8 @@ export default function Show({ project }) {
         <MainLayout>
             <Head title={project.title} />
 
-            <article className="min-h-screen bg-background-primary pt-24 pb-20 relative overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-tertiary/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent-primary/10 rounded-full blur-3xl" />
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10" />
-                </div>
+            <article className="min-h-screen pt-24 pb-20 relative overflow-hidden">
+               
 
                 {/* Hero Section */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">

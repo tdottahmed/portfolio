@@ -7,13 +7,8 @@ export default function Index({ posts }) {
         <MainLayout>
             <Head title="Blog" />
 
-            <section className="relative py-20 sm:py-24 lg:py-32 bg-background-primary overflow-hidden min-h-screen">
-                {/* Background Elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent-tertiary/5 rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent-primary/5 rounded-full blur-3xl" />
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-                </div>
+            <section className="relative py-20 sm:py-24 lg:py-32 overflow-hidden min-h-screen">
+               
 
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                     {/* Page Header */}
