@@ -1,14 +1,11 @@
-import {
-    ArrowRight,
-    ExternalLink,
-    Github,
-    Folder,
-} from "lucide-react";
+import { ArrowRight, ExternalLink, Github, Folder } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import { useScrollAnimation } from "@/Hooks/useScrollAnimation";
 
 export default function Projects({ projects }) {
-    const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: sectionRef, isVisible } = useScrollAnimation({
+        threshold: 0.1,
+    });
 
     // Dummy data fallback with placeholder images
     const displayProjects =
@@ -56,16 +53,11 @@ export default function Projects({ projects }) {
             className="relative py-16 sm:py-20 lg:py-24 overflow-hidden"
             ref={sectionRef}
         >
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent-primary/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-accent-tertiary/10 rounded-full blur-3xl" />
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10" />
-            </div>
-
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 {/* Section Header */}
-                <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0 mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div
+                    className={`flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0 mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                >
                     <div className="text-center sm:text-left w-full sm:w-auto">
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated/50 backdrop-blur-sm rounded-full border border-border-subtle mb-4">
                             <Folder className="w-4 h-4 text-accent-primary" />
@@ -115,7 +107,7 @@ export default function Projects({ projects }) {
                         return (
                             <div
                                 key={project.id}
-                                className={`group bg-surface-base/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-700 hover:shadow-xl flex flex-col h-full hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                                className={`group bg-surface-base/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-border-subtle hover:border-accent-primary/50 transition-all duration-700 hover:shadow-xl flex flex-col h-full hover:-translate-y-2 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
                                 style={{ transitionDelay: `${index * 150}ms` }}
                             >
                                 {/* Image Container */}
@@ -207,7 +199,9 @@ export default function Projects({ projects }) {
                 </div>
 
                 {/* Mobile View All Button */}
-                <div className={`mt-12 text-center sm:hidden transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div
+                    className={`mt-12 text-center sm:hidden transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                >
                     <Link
                         href={route("projects.index")}
                         className="inline-flex items-center px-8 py-4 bg-accent-primary text-white rounded-full hover:bg-accent-primary/90 transition-all duration-300 font-semibold shadow-lg shadow-accent-primary/25 hover:shadow-xl hover:shadow-accent-primary/40 active:scale-95"

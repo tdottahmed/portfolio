@@ -1,9 +1,4 @@
-import {
-    Briefcase,
-    Calendar,
-    MapPin,
-    Trophy,
-} from "lucide-react";
+import { Briefcase, Calendar, MapPin, Trophy } from "lucide-react";
 import { formatDate } from "@/Utils/date";
 
 export default function Experience({ experiences }) {
@@ -62,12 +57,6 @@ export default function Experience({ experiences }) {
 
     return (
         <section className="py-20 sm:py-24 relative overflow-hidden">
-            {/* Subtle Background Gradient */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-accent-primary/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-accent-secondary/5 rounded-full blur-3xl" />
-            </div>
-
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 {/* Section Header */}
                 <div className="mb-16">
@@ -88,10 +77,7 @@ export default function Experience({ experiences }) {
                 {/* Vertical Timeline */}
                 <div className="relative border-l-2 border-border-subtle ml-3 sm:ml-6 space-y-12 sm:space-y-16">
                     {displayExperiences.map((exp, index) => (
-                        <div
-                            key={exp.id}
-                            className="relative pl-8 sm:pl-12"
-                        >
+                        <div key={exp.id} className="relative pl-8 sm:pl-12">
                             {/* Timeline Dot */}
                             <div className="absolute left-[-9px] sm:left-[-11px] top-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-background-primary border-4 border-accent-primary shadow-sm" />
 
@@ -105,13 +91,19 @@ export default function Experience({ experiences }) {
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-3 items-center text-sm">
-
                                     <span className="px-3 py-1 bg-surface-elevated rounded-full border border-border-subtle text-text-secondary font-medium flex items-center gap-1.5">
                                         <Calendar className="w-4 h-4" />
-                                        {formatDate(exp.start_date, { year: 'numeric', month: 'short' })} -{" "}
+                                        {formatDate(exp.start_date, {
+                                            year: "numeric",
+                                            month: "short",
+                                        })}{" "}
+                                        -{" "}
                                         {exp.is_current
                                             ? "Present"
-                                            : formatDate(exp.end_date, { year: 'numeric', month: 'short' })}
+                                            : formatDate(exp.end_date, {
+                                                  year: "numeric",
+                                                  month: "short",
+                                              })}
                                     </span>
                                     <span className="px-3 py-1 bg-surface-elevated rounded-full border border-border-subtle text-text-secondary font-medium flex items-center gap-1.5">
                                         <MapPin className="w-4 h-4" />
@@ -144,7 +136,7 @@ export default function Experience({ experiences }) {
                                                             {achievement}
                                                         </span>
                                                     </li>
-                                                )
+                                                ),
                                             )}
                                         </ul>
                                     </div>

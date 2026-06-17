@@ -1,30 +1,54 @@
+import { useState, useEffect } from "react";
 import {
     ArrowRight,
     Github,
     Linkedin,
     Twitter,
     Mail,
-    Code,
-    Rocket,
+    Package,
+    Shield,
+    Zap,
     Briefcase,
     Award,
     Users,
-    ChevronDown,
     Star,
 } from "lucide-react";
 import { useScrollAnimation } from "@/Hooks/useScrollAnimation";
 
 const TECH_STACK = [
-    { label: "React",      color: "text-sky-400",    bg: "bg-sky-400/10 border-sky-400/30" },
     { label: "Laravel",    color: "text-red-400",    bg: "bg-red-400/10 border-red-400/30" },
-    { label: "TypeScript", color: "text-blue-400",   bg: "bg-blue-400/10 border-blue-400/30" },
+    { label: "React",      color: "text-sky-400",    bg: "bg-sky-400/10 border-sky-400/30" },
+    { label: "Inertia.js", color: "text-purple-400", bg: "bg-purple-400/10 border-purple-400/30" },
     { label: "Tailwind",   color: "text-cyan-400",   bg: "bg-cyan-400/10 border-cyan-400/30" },
+    { label: "PHP",        color: "text-indigo-400", bg: "bg-indigo-400/10 border-indigo-400/30" },
     { label: "MySQL",      color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/30" },
-    { label: "Node.js",    color: "text-green-400",  bg: "bg-green-400/10 border-green-400/30" },
+];
+
+const TAGLINE = [
+    { text: "Full-Stack Laravel Developer", highlight: true },
+    { text: "React Application Development", highlight: true },
+    { text: "Advanced PHP Engineering", highlight: true },
+    { text: "Seamless SPA with Inertia.js", highlight: true },
+    { text: "3+ Years Production Experience", highlight: true },
+];
+
+const HIGHLIGHTS = [
+    { icon: Package, text: "6 CodeCanyon Products",     color: "text-accent-primary"  },
+    { icon: Star,    text: "98% Client Satisfaction",   color: "text-yellow-400"      },
+    { icon: Shield,  text: "Bangladesh Air Force Client",color: "text-accent-secondary"},
+    { icon: Zap,     text: "AI-Accelerated Dev Cycles", color: "text-accent-tertiary" },
 ];
 
 export default function Hero({ settings }) {
     const { ref: containerRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+    const [currentTaglineIndex, setCurrentTaglineIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTaglineIndex((prev) => (prev + 1) % TAGLINE.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     const heroData = settings?.hero
         ? typeof settings.hero === "string"
@@ -40,9 +64,9 @@ export default function Hero({ settings }) {
     const displayData = {
         name:     heroData.name     || "Tanbir Ahmed",
         greeting: heroData.greeting || "Available for Work",
-        title:    heroData.title    || "Full Stack Developer",
+        title:    heroData.title    || "Full-Stack Laravel Developer",
         subtitle: heroData.subtitle ||
-            "I build exceptional digital experiences that matter. Focused on creating intuitive and performant web applications.",
+            "3+ years building commercial SaaS products, B2B platforms & marketplace solutions — from concept to production. True end-to-end ownership with PHP/Laravel + React/Inertia.js.",
     };
 
     const stats = [
@@ -54,7 +78,7 @@ export default function Hero({ settings }) {
     return (
         <section
             ref={containerRef}
-            className="relative min-h-screen flex items-center justify-center overflow-hidden py-4"
+            className="relative overflow-hidden py-12 sm:py-16"
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
@@ -78,11 +102,27 @@ export default function Hero({ settings }) {
                             {displayData.name}
                         </h1>
 
-                        {/* Role */}
-                        <div className={`mb-4 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                            <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary">
-                                {displayData.title}
-                            </span>
+                        {/* Animated tagline slider */}
+                        <div className={`h-8 sm:h-10 mb-5 relative flex justify-center lg:justify-start items-center w-full max-w-full transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+                            {TAGLINE.map((item, i) => (
+                                <div
+                                    key={i}
+                                    className={`absolute inset-0 transition-all duration-700 ease-in-out flex items-center justify-center lg:justify-start ${
+                                        i === currentTaglineIndex 
+                                            ? "opacity-100 translate-y-0 scale-100" 
+                                            : i < currentTaglineIndex || (currentTaglineIndex === 0 && i === TAGLINE.length - 1)
+                                                ? "opacity-0 -translate-y-6 scale-95 pointer-events-none"
+                                                : "opacity-0 translate-y-6 scale-95 pointer-events-none"
+                                    }`}
+                                >
+                                    <span className={item.highlight
+                                        ? "text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary"
+                                        : "text-lg sm:text-xl font-medium text-text-secondary"
+                                    }>
+                                        {item.text}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
 
                         {/* Subtitle */}
@@ -90,8 +130,18 @@ export default function Hero({ settings }) {
                             {displayData.subtitle}
                         </p>
 
+                        {/* Key Highlights */}
+                        <div className={`grid grid-cols-2 gap-2 mb-5 transition-all duration-700 delay-[350ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                            {HIGHLIGHTS.map(({ icon: Icon, text, color }, i) => (
+                                <div key={i} className="flex items-center gap-2 px-3 py-2 bg-surface-elevated/40 backdrop-blur-sm rounded-xl border border-border-subtle">
+                                    <Icon className={`w-3.5 h-3.5 ${color} flex-shrink-0`} />
+                                    <span className="text-xs text-text-secondary font-medium leading-tight">{text}</span>
+                                </div>
+                            ))}
+                        </div>
+
                         {/* CTA Buttons */}
-                        <div className={`flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-5 transition-all duration-700 delay-[400ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                        <div className={`flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-5 transition-all duration-700 delay-[450ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
                             <a
                                 href="https://drive.google.com/file/d/1Kub5WjDQXtxbJT4TS5tkYPoX7vL_pcXa/view?usp=sharing"
                                 target="_blank"
@@ -114,7 +164,7 @@ export default function Hero({ settings }) {
                         </div>
 
                         {/* Social Links */}
-                        <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-2.5 transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                        <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-2.5 transition-all duration-700 delay-[550ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
                             {socialLinks.github && (
                                 <a href={socialLinks.github} target="_blank" rel="noopener noreferrer"
                                     className="flex items-center gap-2 px-4 py-2 bg-surface-elevated/40 backdrop-blur-md rounded-xl border border-border-subtle text-text-secondary hover:text-white hover:bg-[#333] hover:border-[#333] transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
@@ -143,49 +193,64 @@ export default function Hero({ settings }) {
                     </div>
 
                     {/* ── Right Column (desktop) ───────────────────────────────── */}
-                    <div className="relative hidden lg:flex items-center justify-center min-h-[400px]">
-                        <div className="relative w-full max-w-[380px] mx-auto">
+                    <div className="relative hidden lg:flex items-center justify-center">
+                        <div className="relative w-full max-w-[420px] mx-auto">
 
-                            {/* Decorative rings + central icon */}
-                            <div className={`relative mx-auto w-48 h-48 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
-                                {/* Outer spinning ring */}
-                                <div className="absolute inset-0 rounded-full border border-dashed border-accent-primary/20 animate-[spin_24s_linear_infinite]" />
-                                {/* Inner counter-spinning ring */}
-                                <div className="absolute inset-5 rounded-full border border-accent-secondary/20 animate-[spin_16s_linear_infinite_reverse]" />
-                                {/* Glow backdrop */}
-                                <div className="absolute inset-10 rounded-full bg-gradient-to-br from-accent-primary/20 via-surface-elevated to-accent-tertiary/20 blur-sm" />
-                                {/* Icon circle */}
-                                <div className="absolute inset-10 rounded-full bg-surface-elevated/80 border border-accent-primary/30 backdrop-blur-sm flex items-center justify-center shadow-2xl">
-                                    <Code className="w-12 h-12 text-accent-primary" />
-                                </div>
+                            {/* === Terminal / Code Card === */}
+                            <div className={`relative transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
+                                {/* Ambient glow */}
+                                <div className="absolute -inset-6 bg-gradient-to-br from-accent-primary/20 via-accent-secondary/10 to-accent-tertiary/20 blur-3xl rounded-3xl" />
 
-                                {/* Tech tag — top */}
-                                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 delay-[450ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
-                                    <span className={`px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-sm ${TECH_STACK[0].bg} ${TECH_STACK[0].color}`}>{TECH_STACK[0].label}</span>
-                                </div>
-                                {/* Tech tag — right */}
-                                <div className={`absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 transition-all duration-700 delay-[500ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
-                                    <span className={`px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-sm ${TECH_STACK[1].bg} ${TECH_STACK[1].color}`}>{TECH_STACK[1].label}</span>
-                                </div>
-                                {/* Tech tag — bottom */}
-                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 transition-all duration-700 delay-[550ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
-                                    <span className={`px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-sm ${TECH_STACK[2].bg} ${TECH_STACK[2].color}`}>{TECH_STACK[2].label}</span>
-                                </div>
-                                {/* Tech tag — left */}
-                                <div className={`absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 delay-[600ms] ${isVisible ? "opacity-100" : "opacity-0"}`}>
-                                    <span className={`px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-sm ${TECH_STACK[3].bg} ${TECH_STACK[3].color}`}>{TECH_STACK[3].label}</span>
+                                {/* Gradient border wrapper */}
+                                <div className="relative p-px rounded-2xl bg-gradient-to-br from-accent-primary/60 via-border-subtle/20 to-accent-tertiary/60 shadow-2xl">
+                                    <div className="bg-surface-elevated/95 backdrop-blur-xl rounded-2xl overflow-hidden">
+
+                                        {/* Mac-style window chrome */}
+                                        <div className="relative flex items-center justify-center px-4 py-3 bg-surface-base/60 border-b border-white/5">
+                                            <div className="absolute left-4 flex gap-1.5">
+                                                <div className="w-3 h-3 rounded-full bg-red-400" />
+                                                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                                                <div className="w-3 h-3 rounded-full bg-green-400" />
+                                            </div>
+                                            <span className="text-xs text-text-secondary/50 font-mono">developer.js</span>
+                                        </div>
+
+                                        {/* Code body */}
+                                        <div className="flex font-mono text-xs">
+                                            {/* Line numbers */}
+                                            <div className="select-none py-5 px-3 leading-7 text-right text-text-secondary/20 border-r border-white/5 min-w-[2.5rem]">
+                                                {Array.from({ length: 9 }, (_, i) => (
+                                                    <div key={i}>{i + 1}</div>
+                                                ))}
+                                            </div>
+
+                                            {/* Code lines */}
+                                            <div className="py-5 px-5 leading-7 flex-1">
+                                                <div><span className="text-purple-400">const</span> <span className="text-sky-300">me</span> <span className="text-text-secondary/50">=</span> <span className="text-text-secondary/50">{"{"}</span></div>
+                                                <div className="pl-4"><span className="text-red-300">name</span><span className="text-text-secondary/50">:</span> <span className="text-emerald-400">"Tanbir Ahmed"</span><span className="text-text-secondary/50">,</span></div>
+                                                <div className="pl-4"><span className="text-red-300">title</span><span className="text-text-secondary/50">:</span> <span className="text-emerald-400">"Full-Stack Laravel Dev"</span><span className="text-text-secondary/50">,</span></div>
+                                                <div className="pl-4"><span className="text-red-300">stack</span><span className="text-text-secondary/50">: [</span><span className="text-emerald-400">"Laravel"</span><span className="text-text-secondary/50">, </span><span className="text-emerald-400">"React"</span><span className="text-text-secondary/50">, </span><span className="text-emerald-400">"Inertia"</span><span className="text-text-secondary/50">],</span></div>
+                                                <div className="pl-4"><span className="text-red-300">products</span><span className="text-text-secondary/50">:</span> <span className="text-amber-400">6</span><span className="text-text-secondary/50">, </span><span className="text-text-secondary/25">{"// CodeCanyon"}</span></div>
+                                                <div className="pl-4"><span className="text-red-300">satisfaction</span><span className="text-text-secondary/50">:</span> <span className="text-emerald-400">"98%"</span><span className="text-text-secondary/50">,</span></div>
+                                                <div className="pl-4"><span className="text-red-300">openToWork</span><span className="text-text-secondary/50">:</span> <span className="text-amber-400">true</span><span className="text-text-secondary/50">,</span></div>
+                                                <div><span className="text-text-secondary/50">{"}"}</span><span className="text-text-secondary/50">;</span></div>
+                                                <div className="flex items-center gap-1 pt-1">
+                                                    <span className="text-emerald-400">❯</span>
+                                                    <span className="text-text-primary/80">me</span><span className="text-text-secondary/50">.</span><span className="text-yellow-300">buildNextProject</span><span className="text-text-secondary/50">()</span>
+                                                    <span className="inline-block w-2 h-[1.1em] bg-accent-primary rounded-sm ml-0.5 animate-pulse" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Stats row */}
-                            <div className={`grid grid-cols-3 gap-3 mt-4 transition-all duration-700 delay-[650ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+                            {/* === Stats Row === */}
+                            <div className={`grid grid-cols-3 gap-3 mt-4 transition-all duration-700 delay-[550ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                                 {stats.map((stat, i) => {
                                     const Icon = stat.icon;
                                     return (
-                                        <div
-                                            key={i}
-                                            className="bg-surface-elevated/70 backdrop-blur-md p-4 rounded-2xl border border-border-subtle hover:border-accent-primary/40 transition-all duration-300 text-center hover:-translate-y-1 shadow-lg"
-                                        >
+                                        <div key={i} className="bg-surface-elevated/70 backdrop-blur-md p-4 rounded-2xl border border-border-subtle hover:border-accent-primary/40 transition-all duration-300 text-center hover:-translate-y-1 shadow-lg">
                                             <div className={`w-8 h-8 ${stat.bg} rounded-lg flex items-center justify-center mx-auto mb-2`}>
                                                 <Icon className={`w-4 h-4 ${stat.color}`} />
                                             </div>
@@ -196,8 +261,17 @@ export default function Hero({ settings }) {
                                 })}
                             </div>
 
+                            {/* === Tech Stack Pills === */}
+                            <div className={`flex flex-wrap gap-2 mt-4 transition-all duration-700 delay-[650ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                                {TECH_STACK.map((tech) => (
+                                    <span key={tech.label} className={`px-3 py-1 rounded-full border text-xs font-semibold ${tech.bg} ${tech.color}`}>
+                                        {tech.label}
+                                    </span>
+                                ))}
+                            </div>
+
                             {/* Floating — Available for Work */}
-                            <div className={`absolute -right-6 top-4 bg-surface-elevated/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-border-subtle shadow-xl transition-all duration-700 delay-[700ms] ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
+                            <div className={`absolute -right-10 top-6 bg-surface-elevated/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-border-subtle shadow-xl transition-all duration-700 delay-[700ms] ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
                                 <div className="flex items-center gap-3">
                                     <div className="relative flex-shrink-0">
                                         <div className="w-2.5 h-2.5 bg-accent-secondary rounded-full" />
@@ -206,32 +280,6 @@ export default function Hero({ settings }) {
                                     <div>
                                         <p className="text-[10px] text-text-secondary uppercase tracking-wider font-medium">Status</p>
                                         <p className="text-sm font-bold text-text-primary whitespace-nowrap">Available for Work</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating — Fast Delivery */}
-                            <div className={`absolute -left-6 bottom-24 bg-surface-elevated/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-border-subtle shadow-xl transition-all duration-700 delay-[750ms] ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-9 h-9 bg-accent-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Rocket className="w-4 h-4 text-accent-primary" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] text-text-secondary uppercase tracking-wider font-medium">Delivery</p>
-                                        <p className="text-sm font-bold text-text-primary">Fast & Quality</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Floating — Top Rated */}
-                            <div className={`absolute right-0 bottom-4 bg-surface-elevated/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-border-subtle shadow-xl transition-all duration-700 delay-[800ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-9 h-9 bg-accent-tertiary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Star className="w-4 h-4 text-accent-tertiary" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] text-text-secondary uppercase tracking-wider font-medium">Rating</p>
-                                        <p className="text-sm font-bold text-text-primary">Top Rated</p>
                                     </div>
                                 </div>
                             </div>
@@ -255,8 +303,6 @@ export default function Hero({ settings }) {
                     </div>
                 </div>
             </div>
-
-           
         </section>
     );
 }
